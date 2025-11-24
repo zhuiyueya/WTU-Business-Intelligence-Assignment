@@ -1,7 +1,6 @@
 name = "business-intelligence-assignment"
 compatibility_date = "2025-11-24"
-compatibility_flags = ["nodejs_compat"]
+main = "./dashboard.html"
 
-[site]
-bucket = "."
-entry-point = "dashboard.html"  # 替换为你的HTML文件名
+[assets]
+directory = "."
