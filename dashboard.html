@@ -163,6 +163,34 @@
       .copy-panel p:last-child {
         margin-bottom: 0;
       }
+      .chapter-hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+      .chapter-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 1.2rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.05);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .chapter-title {
+        font-size: clamp(2.1rem, 4vw, 3.1rem);
+        margin: 0.4rem 0;
+      }
+      .chapter-desc {
+        max-width: 60ch;
+        color: var(--muted);
+        line-height: 1.7;
+      }
       .metric {
         font-size: clamp(2rem, 4vw, 3rem);
         font-weight: 600;
@@ -306,6 +334,20 @@
       </div>
     </section>
 
+    <section class="slide chapter-intro" id="chapter-01" data-group-anchor="chapter-01">
+      <div class="panel">
+        <div class="chapter-hero">
+          <div>
+            <div class="chapter-badge">01</div>
+            <h2 class="chapter-title" data-chapter-title="chapter-01">背景与方法</h2>
+            <p class="chapter-desc" data-chapter-desc="chapter-01">
+              封面、目录、项目背景、方法论框架
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="slide" id="context">
       <div class="section-tag" data-section-tag="context">背景设定</div>
       <h2 class="slide-title" data-slide-title="context">数据资产与业务问题</h2>
@@ -352,6 +394,20 @@
             · 附录提供 NLP 报告、conversation insights 表格、自动嵌入补充图表<br />
             · 上层领导可直接滚动演示；下沉运营可依据指标执行
           </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide chapter-intro" id="chapter-02" data-group-anchor="chapter-02">
+      <div class="panel">
+        <div class="chapter-hero">
+          <div>
+            <div class="chapter-badge">02</div>
+            <h2 class="chapter-title" data-chapter-title="chapter-02">影响力与节点</h2>
+            <p class="chapter-desc" data-chapter-desc="chapter-02">
+              超级节点、桥接散点、参与会话数 Top10
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -416,6 +472,20 @@
           <p class="slide-note">
             <strong>分析要点：</strong>参与会话多的用户适合作为活动扩散或问题升级的“分布式运营官”，需建立激励计划保持其参与意愿。
           </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide chapter-intro" id="chapter-03" data-group-anchor="chapter-03">
+      <div class="panel">
+        <div class="chapter-hero">
+          <div>
+            <div class="chapter-badge">03</div>
+            <h2 class="chapter-title" data-chapter-title="chapter-03">活跃趋势与时间脉搏</h2>
+            <p class="chapter-desc" data-chapter-desc="chapter-03">
+              会话热度、聊天时间分布、DAU、周 Cohort
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -544,6 +614,20 @@
       </div>
     </section>
 
+    <section class="slide chapter-intro" id="chapter-04" data-group-anchor="chapter-04">
+      <div class="panel">
+        <div class="chapter-hero">
+          <div>
+            <div class="chapter-badge">04</div>
+            <h2 class="chapter-title" data-chapter-title="chapter-04">留存与响应效率</h2>
+            <p class="chapter-desc" data-chapter-desc="chapter-04">
+              7/30 日留存、中位响应时间
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="slide" id="retention-7d">
       <div class="section-tag" data-section-tag="retention-7d">重点指标</div>
       <h2 class="slide-title" data-slide-title="retention-7d">7 日留存率</h2>
@@ -601,6 +685,20 @@
           <p class="slide-note">
             <strong>分析要点：</strong>当响应中位数 >20 分钟时，应考虑启用机器人自动答疑或轮值助教；若 <5 分钟，说明群内存在强实时互动。
           </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide chapter-intro" id="chapter-05" data-group-anchor="chapter-05">
+      <div class="panel">
+        <div class="chapter-hero">
+          <div>
+            <div class="chapter-badge">05</div>
+            <h2 class="chapter-title" data-chapter-title="chapter-05">内容与话题画像</h2>
+            <p class="chapter-desc" data-chapter-desc="chapter-05">
+              关键词、内容/形式分布、主题趋势与表格、自定义图表
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -814,6 +912,20 @@
       </div>
     </section>
 
+    <section class="slide chapter-intro" id="chapter-06" data-group-anchor="chapter-06">
+      <div class="panel">
+        <div class="chapter-hero">
+          <div>
+            <div class="chapter-badge">06</div>
+            <h2 class="chapter-title" data-chapter-title="chapter-06">风险与治理</h2>
+            <p class="chapter-desc" data-chapter-desc="chapter-06">
+              单点喧哗、夜间异常、敏感词、高风险清单
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="slide" id="health-risk">
       <div class="section-tag" data-section-tag="health-risk">风险与治理</div>
       <h2 class="slide-title" data-slide-title="health-risk">高风险群聊提醒</h2>
@@ -892,6 +1004,20 @@
           <p class="slide-note">
             <strong>分析要点：</strong>演示时直接点名高危会话，现场安排责任人跟进，体现“分析→行动”的闭环。
           </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide chapter-intro" id="chapter-07" data-group-anchor="chapter-07">
+      <div class="panel">
+        <div class="chapter-hero">
+          <div>
+            <div class="chapter-badge">07</div>
+            <h2 class="chapter-title" data-chapter-title="chapter-07">高阶模型洞察</h2>
+            <p class="chapter-desc" data-chapter-desc="chapter-07">
+              话题图谱、KMeans、NLP 报告、Conversation Insights
+            </p>
+          </div>
         </div>
       </div>
     </section>

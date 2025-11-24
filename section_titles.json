@@ -3,26 +3,31 @@
     {
       "label": "01 · 背景与方法",
       "description": "封面、目录、项目背景、方法论框架",
+      "anchor": "chapter-01",
       "slides": ["cover", "agenda", "context", "method"]
     },
     {
       "label": "02 · 影响力与节点",
       "description": "超级节点、桥接散点、参与会话数 Top10",
+      "anchor": "chapter-02",
       "slides": ["impact-top", "impact-bridge", "impact-multi-session"]
     },
     {
       "label": "03 · 活跃趋势与时间脉搏",
       "description": "会话热度、聊天时间分布、DAU、周 Cohort",
+      "anchor": "chapter-03",
       "slides": ["health-engagement", "temporal-day", "temporal-hour", "retention-dau", "retention-cohort"]
     },
     {
       "label": "04 · 留存与响应效率",
       "description": "7/30 日留存、中位响应时间",
+      "anchor": "chapter-04",
       "slides": ["retention-7d", "retention-30d", "retention-response"]
     },
     {
       "label": "05 · 内容与话题画像",
       "description": "关键词、内容/形式分布、主题趋势与表格、自定义图表",
+      "anchor": "chapter-05",
       "slides": [
         "temporal-keywords",
         "content-mix",
@@ -40,11 +45,13 @@
     {
       "label": "06 · 风险与治理",
       "description": "单点喧哗、夜间异常、敏感词、高风险清单",
+      "anchor": "chapter-06",
       "slides": ["health-risk", "risk-night", "risk-keyword", "risk-list"]
     },
     {
       "label": "07 · 高阶模型洞察",
       "description": "话题图谱、KMeans、NLP 报告、Conversation Insights",
+      "anchor": "chapter-07",
       "slides": [
         "topic-graph",
         "topic-narrative",
@@ -67,6 +74,7 @@
     {
       "label": "08 · 结论与行动建议",
       "description": "增长与治理动作、技术沉淀",
+      "anchor": "chapter-08",
       "slides": ["summary"]
     }
   ],
