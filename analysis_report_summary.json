@@ -1,0 +1,60 @@
+{
+  "basic_stats": {
+    "messages": 115904,
+    "users": 4025,
+    "sessions": 2045,
+    "span": "2025-09-24 09:03:08 ~ 2025-11-08 07:19:09"
+  },
+  "classification_counts": {
+    "未分类": 108394,
+    "闲聊": 2223,
+    "争吵": 438,
+    "技术交流": 552,
+    "广告": 787,
+    "求助": 3054,
+    "通知": 456
+  },
+  "sentiment_counts": {
+    "中性": 114631,
+    "负向": 326,
+    "正向": 947
+  },
+  "toxicity_counts": {
+    "正常": 115683,
+    "可疑": 221
+  },
+  "intent_counts": {
+    "闲聊/其他": 106804,
+    "问句/求助": 8108,
+    "回应": 407,
+    "通知/命令": 585
+  },
+  "thread_stats": {
+    "threads": 12500,
+    "avg_length": 9.27232,
+    "median_length": 1.0,
+    "longest": 860
+  },
+  "forecast": {
+    "slope": -13.459512796793106,
+    "predicted_next_7_days_total": 15043,
+    "daily_forecast": [
+      2189,
+      2176,
+      2162,
+      2149,
+      2136,
+      2122,
+      2109
+    ]
+  },
+  "time_peaks": {
+    "hour": 12,
+    "weekday": "Monday",
+    "month": "2025-10"
+  },
+  "topic_frequency_index": 0.006238402420825926,
+  "social_correlation_index": 0.6389,
+  "topic_depth_index": 9.27232,
+  "emotional_orientation_index": 0.0054
+}

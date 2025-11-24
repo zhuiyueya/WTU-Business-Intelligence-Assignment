@@ -1,0 +1,2557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>武纺学生社群洞察驾驶舱</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #050505;
+        --panel: rgba(255, 255, 255, 0.04);
+        --accent: #00ffd1;
+        --text: #f4f4f4;
+        --muted: #94a3b8;
+      }
+      body {
+        margin: 0;
+        font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        background: radial-gradient(circle at top, #111833, #020202 55%);
+        color: var(--text);
+      }
+      .slide {
+        min-height: 100vh;
+        padding: 5rem clamp(2rem, 6vw, 6rem);
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .slide-title {
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        margin: 0 0 0.5rem;
+      }
+      .section-tag {
+        font-size: 0.85rem;
+        color: var(--muted);
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+      .slide-note {
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.8;
+      }
+      .two-column {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1.5rem;
+      }
+      .toc-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1rem;
+      }
+      .toc-item {
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        padding: 1.2rem;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .toc-item span {
+        display: block;
+        font-size: 0.9rem;
+        color: var(--muted);
+        margin-top: 0.45rem;
+      }
+      .toc-item a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+      .outline {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1rem;
+      }
+      .outline .panel {
+        height: 100%;
+      }
+      .callout {
+        border-left: 4px solid var(--accent);
+        padding-left: 1rem;
+        margin: 0;
+      }
+      .cover-panel {
+        padding: 3rem;
+      }
+      .hero {
+        justify-content: center;
+        text-align: center;
+      }
+      h1 {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        margin: 0;
+      }
+      h2 {
+        font-size: clamp(1.5rem, 3vw, 2.4rem);
+        margin: 0 0 1rem;
+      }
+      p.lead {
+        font-size: 1.2rem;
+        color: var(--muted);
+        max-width: 60ch;
+        margin: 1rem auto 0;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(10px);
+      }
+      .split-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        align-items: stretch;
+      }
+      .visual-block {
+        flex: 1 1 48%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .visual-block img,
+      .visual-block canvas {
+        width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+      .copy-block {
+        flex: 1 1 320px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .copy-panel {
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        padding: 1.2rem;
+      }
+      .copy-panel p {
+        margin: 0 0 0.9rem;
+      }
+      .copy-panel p:last-child {
+        margin-bottom: 0;
+      }
+      .metric {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 600;
+        color: var(--accent);
+      }
+      .metric-label {
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-size: 0.8rem;
+      }
+      canvas {
+        max-width: 100%;
+      }
+      .insight {
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+      .keywords {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .keyword {
+        padding: 0.4rem 0.9rem;
+        border-radius: 999px;
+        background: rgba(0, 255, 209, 0.1);
+        border: 1px solid rgba(0, 255, 209, 0.2);
+        font-size: 0.9rem;
+      }
+      .topic-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        align-items: center;
+      }
+      .topic-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+      .topic-select {
+        min-width: 240px;
+        padding: 0.6rem 0.9rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text);
+      }
+      .topic-zoom {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .topic-btn {
+        padding: 0.4rem 0.9rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--text);
+        cursor: pointer;
+      }
+      .topic-graph {
+        height: 420px;
+      }
+      .embed-frame {
+        width: 100%;
+        min-height: 900px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      }
+      .mini-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 0.75rem;
+      }
+      .tagline {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-top: 0.4rem;
+      }
+      .mini-metric {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--accent);
+        margin: 0.2rem 0;
+      }
+      .mini-label {
+        color: var(--muted);
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .insight-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+      }
+      .insight-table th,
+      .insight-table td {
+        padding: 0.45rem 0.3rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .insight-table th {
+        color: var(--muted);
+        font-weight: 600;
+      }
+      @media (max-width: 768px) {
+        .slide {
+          padding: 3rem 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="slide hero cover" id="cover">
+      <div class="panel cover-panel">
+        <p class="metric-label">武汉纺织大学 · 商务智能课程设计</p>
+        <h1>学生社群智能洞察驾驶舱</h1>
+        <p class="lead">
+          基于 QQ 群聊/私聊 10 万级消息构建，覆盖 2000+ 会话与 600+ 核心用户。内容依次覆盖“背景&方法 → 影响力与节点 → 活跃趋势 → 留存&响应 → 内容/话题画像 → 风险治理 → 高阶模型 → 行动总结”的八大章节，让网页即 PPT，支持路演/答辩。
+        </p>
+        <p class="tagline">数据周期：2023.12 ~ 2024.10 · 仪表主题：社群增长、运营提效、风险治理 · 输出：洞察讲稿 + 高分辨率静态图</p>
+      </div>
+    </section>
+
+    <section class="slide" id="agenda">
+      <div class="panel">
+        <div class="section-tag">目录 / Agenda</div>
+        <h2 class="slide-title">演示结构</h2>
+        <ol class="toc-list" id="agendaList">
+          <li class="toc-item">
+            <a href="#context">01 · 背景与方法</a>
+            <span>封面、目录、项目背景、方法论框架</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide" id="context">
+      <div class="section-tag" data-section-tag="context">背景设定</div>
+      <h2 class="slide-title" data-slide-title="context">数据资产与业务问题</h2>
+      <div class="two-column">
+        <div class="panel">
+          <h3>数据范围</h3>
+          <p class="slide-note">
+            · 10 万+ 消息，覆盖 2000+ 群聊/私聊线程、600+ 核心用户<br />
+            · 解析字段：成员、消息时间、媒介类型、关键词、情绪、毒性标签<br />
+            · 形成可复用的 Dashboard 数据层（dashboard_data.json）与 NLP summary
+          </p>
+        </div>
+        <div class="panel">
+          <h3>业务问题</h3>
+          <p class="slide-note">
+            · 谁是跨群扩散的关键节点？<br />
+            · 哪些群体存在单点喧哗 / 运营风险？<br />
+            · 何时最活跃、聊什么、反馈速度如何？<br />
+            · 主题生态/内容结构是否支撑活动与增长？<br />
+            · 如何用 NLP/KMeans 沉淀策略与预警？
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="method">
+      <div class="section-tag" data-section-tag="method">商务智能框架</div>
+      <h2 class="slide-title" data-slide-title="method">指标体系与方法论</h2>
+      <div class="two-column">
+        <div class="panel">
+          <h3>分析方法</h3>
+          <p class="slide-note">
+            ① 数据清洗 → 用户/会话维度聚合<br />
+            ② 指标建模：影响力（发言×跨群）、健康度（Gini）、时间序列（DAU、小时活跃）<br />
+            ③ NLP：话题分类、意图/情绪/毒性预测，抽取核心话题覆盖率<br />
+            ④ KMeans：对消息内容、用户行为、会话健康进行聚类，形成画像
+          </p>
+        </div>
+        <div class="panel">
+          <h3>输出结构</h3>
+          <p class="slide-note">
+            · PPT 化网页：封面 + 目录 + 每指标单页<br />
+            · 每页包含图表 + 文字洞察 + 行动建议提示<br />
+            · 附录提供 NLP 报告、conversation insights 表格、自动嵌入补充图表<br />
+            · 上层领导可直接滚动演示；下沉运营可依据指标执行
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="impact-top">
+      <div class="section-tag" data-section-tag="impact-top">社群影响力</div>
+      <h2 class="slide-title" data-slide-title="impact-top">超级节点 Top 10</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <canvas id="topUsersChart" height="320"></canvas>
+        </div>
+        <div class="panel copy-block">
+          <div class="copy-panel">
+            <p class="slide-note" id="topUsersInsight">
+              用消息量 + 跨群覆盖构成“扩散能量”双轴，识别最值得维护的 KOC/KOL。
+            </p>
+          </div>
+          <div class="copy-panel" data-copy-id="impact-top">
+            <p class="slide-note">
+              <strong>技术说明：</strong>调用 <code>analyze_user_activity.py</code> 聚合消息 -> 用户粒度数据，再在前端用 Chart.js 的组合图展示消息量和跨群数。
+            </p>
+            <p class="slide-note">
+              <strong>分析建议：</strong>跨群覆盖 ≥8 且消息量在前 10 的成员建议纳入“种子用户池”，在发起活动、转发报名表时优先触达。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="impact-bridge">
+      <div class="section-tag" data-section-tag="impact-bridge">社群影响力</div>
+      <h2 class="slide-title" data-slide-title="impact-bridge">桥接指数散点</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <canvas id="bridgeChart" height="320"></canvas>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="impact-bridge">
+          <p class="slide-note">
+            桥接指数 = 发言量 × 跨群数，用散点呈现高杠杆人群，辅助活动种子用户招募与信息覆蓋策略。
+          </p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>后端计算 uniqueSessions 与 activeDays，并自定义 tooltip 告知“桥接数×活跃天”；散点尺寸映射 cluster 中心距。
+          </p>
+          <p class="slide-note">
+            <strong>分析建议：</strong>右上象限 = 同时高活跃 + 多群，建议建立“校园情报小组”；左下象限为普通成员，可结合激励盘活。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="impact-multi-session">
+      <div class="section-tag" data-section-tag="impact-multi-session">社群影响力</div>
+      <h2 class="slide-title" data-slide-title="impact-multi-session">用户参与会话数量</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <img src="用户参与会话数量.png" alt="用户参与会话数量 Top10" style="border-radius:16px;" />
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="impact-multi-session">
+          <p class="slide-note">
+            <strong>技术说明：</strong>统计每位用户参与的独立会话数，并输出 Top10 柱状图，展示“跨群穿梭者”分布；使用 Pandas 聚合 + Matplotlib 导出。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>参与会话多的用户适合作为活动扩散或问题升级的“分布式运营官”，需建立激励计划保持其参与意愿。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="health-engagement">
+      <div class="section-tag" data-section-tag="health-engagement">群组健康</div>
+      <h2 class="slide-title" data-slide-title="health-engagement">高活跃会话体检</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <img src="会话消息热度.png" alt="会话消息热度" style="border-radius:16px;" />
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="health-engagement-heat">
+          <p class="slide-note">使用 Python 统计会话消息热度 Top10，以静态图呈现运营重点。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>后端脚本按会话聚合消息量并排序，将 Top 结果用 Matplotlib 输出为 PNG，与 <code>dashboard_data.json.topSessions</code> 数据一致。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>热度柱状图可直接定位“超级会话”，若 TOP3 占比超过 50%，应增加官方账号或拆分主题。
+          </p>
+        </div>
+      </div>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <img src="会话消息数量.png" alt="会话消息数量" style="border-radius:16px;" />
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="health-engagement-volume">
+          <p class="slide-note">
+            <strong>技术说明：</strong>同一脚本输出“消息数量 Top10”，用于观察不同梯队的体量差异。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>结合热度与数量可判断是否存在“爆量但集中”的群，有助于安排陪伴/调度。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="temporal-day">
+      <div class="section-tag" data-section-tag="temporal-day">时间脉搏</div>
+      <h2 class="slide-title" data-slide-title="temporal-day">聊天时间分布</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <img src="聊天时间分布.png" alt="聊天时间分布综合图" style="border-radius:16px;" />
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="temporal-day">
+          <p class="slide-note">
+            <strong>技术说明：</strong>将 24 小时、星期、月份与“星期×小时”热力图合并在一张 PNG 中展示，数据源来自 <code>activityByHour</code>、<code>activityByWeekday</code> 与 <code>activityByDay</code>。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>上午 10~12 点为全天峰值（10784 条），周五最活跃、周三最低；周末晚间仍有 1500+ 消息，需要安排值班窗口。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="temporal-hour">
+      <div class="section-tag" data-section-tag="temporal-hour">时间脉搏</div>
+      <h2 class="slide-title" data-slide-title="temporal-hour">时间分布洞察</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div style="width:100%;">
+            <div class="mini-grid">
+              <div class="panel" style="background:rgba(15,23,42,0.4);">
+                <p class="metric-label">峰值小时</p>
+                <p class="metric">10:00</p>
+                <p class="tagline">10784 条/小时</p>
+              </div>
+              <div class="panel" style="background:rgba(15,23,42,0.4);">
+                <p class="metric-label">最热星期</p>
+                <p class="metric">星期五</p>
+                <p class="tagline">21k+ 条消息</p>
+              </div>
+              <div class="panel" style="background:rgba(15,23,42,0.4);">
+                <p class="metric-label">最热月份</p>
+                <p class="metric">10 月</p>
+                <p class="tagline">迎新 + 招聘季</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="temporal-hour">
+          <p class="slide-note">
+            <strong>技术说明：</strong>同一数据集生成峰值小时、峰值日期、周/月热度字段，供其他模块引用；本块聚焦关键数字解读。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>9:30 前推送活动预告，在 10 点窗口组织互动；10 月峰值说明迎新+招聘拉升活跃，11 月需借活动延长热度。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="retention-dau">
+      <div class="section-tag" data-section-tag="retention-dau">留存与响应</div>
+      <h2 class="slide-title" data-slide-title="retention-dau">每日活跃用户</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <canvas id="dailyActiveChart" height="280"></canvas>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="retention-dau">
+          <p class="slide-note">DAU 曲线用于判断整体热度与拉新成效，可进一步 overlay 活动日期。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>使用 <code>daily_active_users.csv</code> 生成时间序列，并用 Chart.js 折线图展示；脚本对缺失天数做线性插值。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>若 DAU 波动 >40% 说明活动触发效应大，但基础盘不稳；若曲线平缓但整体低，需要通过招募新群拉升。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="retention-cohort">
+      <div class="section-tag" data-section-tag="retention-cohort">留存与响应</div>
+      <h2 class="slide-title" data-slide-title="retention-cohort">周 Cohort 留存</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <canvas id="weeklyCohortChart" height="280"></canvas>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="retention-cohort">
+          <p class="slide-note">配色热力展示不同周次的回访率，可快速发现哪次活动/内容具备持续性。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>以 <code>weekly_engagement.csv</code> 计算 Cohort 矩阵，Chart.js 使用自定义色阶映射留存率。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>如果某周 Cohort 在第 2 周仍有 ≥50% 留存，说明该周 push 的话题值得复刻；连续 3 周骤降需检查迎新或宣传流程。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="retention-7d">
+      <div class="section-tag" data-section-tag="retention-7d">重点指标</div>
+      <h2 class="slide-title" data-slide-title="retention-7d">7 日留存率</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <p class="metric" id="retained7Metric">-</p>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="retention-7d">
+          <p class="slide-note">衡量一次触达能否沉淀为持续参与。>60% 代表内容具备二次触达能力，可维持活动热度。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>Python 通过 Cohort 数据计算滚动 7 日回访率并写入 JSON；前端直接渲染指标卡。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>若 7 日留存高于 80%，表示内容较“粘”；若低于 40%，需检视消息质量或通知时效。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="retention-30d">
+      <div class="section-tag" data-section-tag="retention-30d">重点指标</div>
+      <h2 class="slide-title" data-slide-title="retention-30d">30 日留存率</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <p class="metric" id="retained30Metric">-</p>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="retention-30d">
+          <p class="slide-note">
+            长周期留存 >40% 意味着社群形成自循环，可承接长期项目/服务；低于阈值需补足内容供给。
+          </p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>30 日指标通过用户级活跃记录做去重统计，再除以 30 日内激活用户数；脚本会过滤一次性活动造成的极端峰值。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>若 30 日留存与 7 日差距过大，意味着“短期热、长期冷”，需要搭配周期活动维持粘性。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="retention-response">
+      <div class="section-tag" data-section-tag="retention-response">重点指标</div>
+      <h2 class="slide-title" data-slide-title="retention-response">中位响应时间</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <p class="metric" id="responseMetric">-</p>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="retention-response">
+          <p class="slide-note">
+            <strong>≤10 分钟</strong> 视作“即时反馈社群”；>30 分钟说明消息沉没，需要通知/机器人兜底。
+          </p>
+          <p class="slide-note">
+            <strong>技术说明：</strong> <code>analyze_session_health.py</code> 对每条消息和上一条的时间做差，取中位数，剔除系统消息。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>当响应中位数 >20 分钟时，应考虑启用机器人自动答疑或轮值助教；若 <5 分钟，说明群内存在强实时互动。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="temporal-keywords">
+      <div class="section-tag" data-section-tag="temporal-keywords">热点捕捉</div>
+      <h2 class="slide-title" data-slide-title="temporal-keywords">关键词雷达</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div class="keywords" id="keywordList" style="width:100%;"></div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="temporal-keywords">
+          <p class="slide-note">
+            关键词配合时间趋势可追踪“需求 → 行动”链路，如兼职、赛事、表白墙，帮助快速匹配资源。
+          </p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>利用 <code>keywords_overall.csv</code> 清洗后输出 top 20 关键词，前端逐个渲染 pill，并结合词频排序。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>“兼职/比赛”类需求可对接创新创业或就业部门；“吐槽/表白”类热词提示需加强情绪疏导。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="content-mix">
+      <div class="section-tag" data-section-tag="content-mix">内容画像</div>
+      <h2 class="slide-title" data-slide-title="content-mix">内容类型占比</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <canvas id="contentPie" height="260"></canvas>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="content-mix">
+          <p class="slide-note">图表用于回答“我们聊什么”，并对内容结构进行 KPI 约束。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>内容类型来自关键词模型 + <code>text_filters.py</code> 分类器，前端使用 Chart.js 饼图并注册 datalabels 插件展示百分比。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>建议保持“资讯+生活”占比在 60% 以上；“吐槽”超过 15% 时需加强心理辅导。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="content-format">
+      <div class="section-tag" data-section-tag="content-format">内容画像</div>
+      <h2 class="slide-title" data-slide-title="content-format">消息形式占比</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <canvas id="formatPie" height="260"></canvas>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="content-format">
+          <p class="slide-note">多媒体/语音比例能反推素材准备与服务器成本。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>格式识别来自消息 metadata（image/video/file），脚本统计后写入 JSON；Chart.js 饼图 + legend 可切换。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>若图片/视频合计 >40%，应预留 CDN 流量；若文本占比过高，可插入图文素材提升互动。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="content-trend">
+      <div class="section-tag" data-section-tag="content-trend">话题脉搏</div>
+      <h2 class="slide-title" data-slide-title="content-trend">主题趋势</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <img src="主题趋势.jpeg" alt="主题趋势折线图" style="border-radius:16px;" />
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="content-trend">
+          <p class="slide-note">主题随时间演进的峰谷辅助判断“内容是否可持续”。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>使用 Matplotlib 生成高分辨率折线图，数据来自 <code>content_topic_analysis.json</code> 的时间切片。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>持续上涨的主题可作为“系列栏目”，下滑主题需要重新包装或换渠道。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="content-wordcloud">
+      <div class="section-tag" data-section-tag="content-wordcloud">话题脉搏</div>
+      <h2 class="slide-title" data-slide-title="content-wordcloud">词云速览</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div id="wordCloud" style="height: 320px; width:100%;"></div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="content-wordcloud">
+          <p class="slide-note">词云用于快速讲述“学生如何自发表达”。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>引入 ECharts WordCloud 插件，使用 TF-IDF 权重映射字体大小；词云色彩与主题色对齐。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>“考研/比赛”等词提示运营优先级；若出现大量“抱怨”词，需要建立反馈渠道。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="content-table">
+      <div class="section-tag" data-section-tag="content-table">内容/话题表</div>
+      <h2 class="slide-title" data-slide-title="content-table">内容数量表</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div id="contentTable" class="slide-note" style="width:100%;"></div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="content-table">
+          <p class="slide-note">
+            <strong>技术说明：</strong>表格数据使用自动生成的 HTML，包含同比/环比，适合在课堂答辩时展示详细数值。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>可从表中挑选增长最快的内容类型，制定下一周期重点计划。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="topic-table">
+      <div class="section-tag" data-section-tag="topic-table">内容/话题表</div>
+      <h2 class="slide-title" data-slide-title="topic-table">话题数量表</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div id="topicTable" class="slide-note" style="width:100%;"></div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="topic-table">
+          <p class="slide-note">
+            <strong>技术说明：</strong>话题数量表同样由脚本渲染，数据来源 <code>content_topic_analysis.json</code>；通过排序帮助定位 Top 话题。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>Top 话题与 KPI 结合能说明各内容线的 ROI，可在汇报中引用具体数值。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="custom-content">
+      <div class="section-tag" data-section-tag="custom-content">自定义图表</div>
+      <h2 class="slide-title" data-slide-title="custom-content">内容类型扇形图</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <canvas id="customContentPie" height="240" style="max-width: 100%;"></canvas>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="custom-content">
+          <p class="slide-note">展示交易/生活/吐槽等内容的绝对量，用于 KPI 对齐。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>此图来自人工标注的 600 条样本，通过比例外推整个语料，Chart.js 配色与主图呼应。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>“交易类”高说明闲置交易需求旺；“吐槽类”升高则要关注舆情。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="custom-format">
+      <div class="section-tag" data-section-tag="custom-format">自定义图表</div>
+      <h2 class="slide-title" data-slide-title="custom-format">聊天形式分布</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <img src="聊天形式分布.jpeg" alt="聊天形式分布柱状图" style="border-radius:16px;" />
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="custom-format">
+          <p class="slide-note">来自 CSV 的手工统计，突出学生更偏好的交互媒介。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>读取 <code>messages_export</code> 原始字段，根据 message_type 手工分组，并使用 Matplotlib/Seaborn 绘制静态柱状图。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>如果群更偏爱语音或图片，需要准备相应模版；若文本占比过高，可尝试加入 Emoji/模板增强可读性。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="text-length">
+      <div class="section-tag" data-section-tag="text-length">自定义图表</div>
+      <h2 class="slide-title" data-slide-title="text-length">文本消息长度区间</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <img src="文本消息长度区间.jpeg" alt="文本消息长度区间柱状图" style="border-radius:16px;" />
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="text-length">
+          <p class="slide-note">展示不同字符区间的消息量分布，帮助评估“长文/短句”的占比，进而设计话题模板。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>基于消息文本长度分箱（0-5、6-10…≥1000），使用 Pandas cut + value_counts 统计后以 Matplotlib 输出。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>0-10 字段占比 70%+，说明学生偏短句互动；长文虽少但可用于深度分享或公告。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="manual-topic">
+      <div class="section-tag" data-section-tag="manual-topic">自定义图表</div>
+      <h2 class="slide-title" data-slide-title="manual-topic">学生话题柱状图</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <canvas id="manualTopicBar" height="260" style="max-width: 100%;"></canvas>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="manual-topic">
+          <p class="slide-note">讲解不同主题的热度差异，为活动策划提供优先级。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>利用人工定义的 topicTypeCounts（来自 keywords_group.csv），通过 Chart.js 柱图展示。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>对柱高的主题设置专属活动或福利；低迷主题可减少投放，把资源集中到高 ROI 话题。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="health-risk">
+      <div class="section-tag" data-section-tag="health-risk">风险与治理</div>
+      <h2 class="slide-title" data-slide-title="health-risk">高风险群聊提醒</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div>
+            <p class="metric-label">高风险群聊</p>
+            <p class="metric" id="sessionHighlight">加载中…</p>
+            <p class="slide-note" id="sessionInsight"></p>
+          </div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="health-risk">
+          <p class="slide-note">单人贡献 >50% 消息即触发“单点喧哗”告警，建议补充官方账号/主持人，避免失控舆情。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>Python 端对消息用户占比排序，挑出 Top1 占比极值的群，写入 <code>dashboard_data.json.topSessions</code>。
+          </p>
+          <p class="slide-note">
+            <strong>策略洞察：</strong>对触发阈值的群建立“陪练官”或拆分子话题群，减少单点喧哗带来的风险。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="risk-night">
+      <div class="section-tag" data-section-tag="risk-night">风险与治理</div>
+      <h2 class="slide-title" data-slide-title="risk-night">夜间活跃异常</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <canvas id="lateNightChart" height="280"></canvas>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="risk-night">
+          <p class="slide-note">统计 0:00~6:00 消息量，结合毒性词提醒“夜聊”场景。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>脚本统计夜间消息量和毒性概率，Chart.js 柱图用颜色标记异常；数据亦供风险清单使用。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>夜聊峰值与负向词同步出现时，应通知心理辅导老师；夜自习学习群可安排官方陪伴。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="risk-keyword">
+      <div class="section-tag" data-section-tag="risk-keyword">风险与治理</div>
+      <h2 class="slide-title" data-slide-title="risk-keyword">敏感关键词监控</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <canvas id="keywordAlertChart" height="280"></canvas>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="risk-keyword">
+          <p class="slide-note">梳理高风险词的出现场景，可支撑辅导员值守策略。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>关键词来源于 <code>risk_summary.json</code>，基于 TF-IDF + 自定义敏感词表生成；前端柱图突出异常词。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>观察关键词与群组交集即可快速锁定需介入的场景；跨群出现需启动校级通告。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="risk-list">
+      <div class="section-tag" data-section-tag="risk-list">风险与治理</div>
+      <h2 class="slide-title" data-slide-title="risk-list">高风险会话清单</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div id="riskSessionList" class="slide-note" style="width:100%;"></div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="risk-list">
+          <p class="slide-note">
+            清单包含群号、风险原因、建议动作，可复制进工作群逐条跟进。
+          </p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>数据由 <code>risk_monitor.py</code> 规则引擎生成（夜聊率、毒性概率、关键词命中），以 JSON 提供。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>演示时直接点名高危会话，现场安排责任人跟进，体现“分析→行动”的闭环。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="topic-graph">
+      <div class="section-tag" data-section-tag="topic-graph">高阶模型洞察</div>
+      <h2 class="slide-title" data-slide-title="topic-graph">高频话题关系图谱</h2>
+      <div class="split-container">
+        <div class="panel visual-block" style="flex:1 1 60%;">
+          <div class="topic-controls">
+            <div class="topic-actions">
+              <div>
+                <p class="metric-label" style="margin-bottom: 0.4rem">选择热点话题</p>
+                <select id="topicSelect" class="topic-select"></select>
+              </div>
+              <div class="topic-zoom">
+                <button class="topic-btn" data-topic-zoom="in">放大</button>
+                <button class="topic-btn" data-topic-zoom="out">缩小</button>
+                <button class="topic-btn" data-topic-zoom="reset">重置视角</button>
+              </div>
+            </div>
+          </div>
+          <div id="topicGraph" class="topic-graph"></div>
+        </div>
+        <div class="panel copy-block">
+          <div class="copy-panel">
+            <div id="topicMeta" class="insight">加载中…</div>
+          </div>
+          <div class="copy-panel" data-copy-id="topic-graph">
+            <p class="slide-note">Force-Graph 呈现话题网络，可交互放大缩小。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="topic-narrative">
+      <div class="section-tag" data-section-tag="topic-narrative">高阶模型洞察</div>
+      <h2 class="slide-title" data-slide-title="topic-narrative">节点洞察 & 叙事</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div>
+            <h3 style="margin-top:0">强关联节点</h3>
+            <div id="topicConnections" class="slide-note"></div>
+            <h3 style="margin-top:1rem">关键节点说明</h3>
+            <div id="topicNodeInfo" class="slide-note"></div>
+          </div>
+        </div>
+        <div class="panel copy-block">
+          <div class="copy-panel">
+            <p class="slide-note" id="topicInsight">加载中…</p>
+          </div>
+          <div class="copy-panel" data-copy-id="topic-narrative">
+            <p class="slide-note">
+              <strong>技术说明：</strong>使用 ForceGraph 渲染节点，数据来自 <code>content_topic_analysis.json</code>；交互按钮控制摄像机缩放。
+            </p>
+            <p class="slide-note">
+              <strong>分析要点：</strong>节点连接越多表示该主题可作为“枢纽内容”；孤立节点说明话题割裂。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="cluster-content">
+      <div class="section-tag" data-section-tag="cluster-content">高阶模型洞察</div>
+      <h2 class="slide-title" data-slide-title="cluster-content">内容主题簇</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div id="contentClusterPanel" class="slide-note"></div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="cluster-content">
+          <p class="slide-note">
+            <strong>技术说明：</strong>运行 <code>kmeans_analysis.py</code>，对 TF-IDF 特征做 KMeans 聚类（k=5），并输出代表消息。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>不同簇对应不同内容策略，例如“就业资讯簇”适合固定时段推送，“娱乐吐槽簇”适合轻互动活动。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="cluster-user">
+      <div class="section-tag" data-section-tag="cluster-user">高阶模型洞察</div>
+      <h2 class="slide-title" data-slide-title="cluster-user">用户画像簇</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div id="userClusterPanel" class="slide-note"></div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="cluster-user">
+          <p class="slide-note">
+            <strong>技术说明：</strong>用户聚类使用消息频率、夜聊占比、多媒体占比等特征；通过 scikit-learn 标准化后聚类。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>“夜聊型”用户应纳入深夜陪伴计划，“多媒体创作者”可作为内容共创伙伴。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="cluster-session">
+      <div class="section-tag" data-section-tag="cluster-session">高阶模型洞察</div>
+      <h2 class="slide-title" data-slide-title="cluster-session">会话健康簇</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div id="sessionClusterPanel" class="slide-note"></div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="cluster-session">
+          <p class="slide-note">
+            <strong>技术说明：</strong>会话簇基于消息量、Gini、关键词密度做聚类，定位不同健康水平的群。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>“高消息+高 Gini”簇需要运营介入，“中消息+低 Gini”簇是理想状态，可总结方法推广。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="nlp-base">
+      <div class="section-tag" data-section-tag="nlp-base">高阶模型洞察</div>
+      <h2 class="slide-title" data-slide-title="nlp-base">NLP 语料范围</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div>
+            <p class="metric-label">数据范围</p>
+            <p class="metric" id="nlpMessages">-</p>
+            <p class="tagline" id="nlpSpan"></p>
+            <div class="keywords" style="margin-top:0.6rem;">
+              <span class="keyword" id="nlpUsers">- 用户</span>
+              <span class="keyword" id="nlpSessions">- 会话</span>
+            </div>
+          </div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="nlp-base">
+          <p class="slide-note">
+            NLP 指标用于情绪巡检、意图分类与毒性监控；点击
+            <a href="analysis_report.html" target="_blank" style="color:#00ffd1;text-decoration:none;">analysis_report.html</a> 查看全文。
+          </p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>语料通过 <code>anonymize_messages.py</code> 去标识后送入多任务模型（意图+情绪+毒性）。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>总消息、用户、会话数量可计算“人均发言”“覆盖群”等 KPI，展示数据规模。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="nlp-intent">
+      <div class="section-tag" data-section-tag="nlp-intent">高阶模型洞察</div>
+      <h2 class="slide-title" data-slide-title="nlp-intent">分类 & 意图分布</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div>
+            <p class="metric-label">内容分类</p>
+            <div id="nlpClassification" class="keywords"></div>
+            <p class="metric-label" style="margin-top:1rem;">意图分布</p>
+            <div id="nlpIntent" class="keywords"></div>
+          </div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="nlp-intent">
+          <p class="slide-note">展示“聊什么 + 为何而聊”，辅助运营制定内容供给策略。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>意图分类器基于 RoBERTa-wwm 微调，支持多标签；前端 pills 按频次排序。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>“求助/问句”比例高说明服务需求大；“通知/命令”多需要检查推送疲劳。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="nlp-sentiment">
+      <div class="section-tag" data-section-tag="nlp-sentiment">高阶模型洞察</div>
+      <h2 class="slide-title" data-slide-title="nlp-sentiment">情绪 & 毒性</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div>
+            <p class="metric-label">情绪极性</p>
+            <img src="情感分布.png" alt="情绪分布饼图" style="width:100%;max-width:480px;border-radius:16px;" />
+            <div id="nlpSentiment" class="keywords" style="margin-top:1rem;"></div>
+            <p class="metric-label" style="margin-top:1rem;">毒性检测</p>
+            <div id="nlpToxicity" class="keywords"></div>
+          </div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="nlp-sentiment">
+          <p class="slide-note">可作为心理健康巡检的量化依据。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>情绪模型输出正/负/中性概率，毒性检测结合 OpenAI ToxiScore + 自建词典。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>若负向/可疑占比上升，要启动心理支援；中性过高需引入互动话题。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="nlp-thread">
+      <div class="section-tag" data-section-tag="nlp-thread">高阶模型洞察</div>
+      <h2 class="slide-title" data-slide-title="nlp-thread">线程 & 预测</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div>
+            <p class="metric-label">线程指标</p>
+            <div id="nlpThreads" class="keywords"></div>
+            <p class="metric-label" style="margin-top:1rem;">未来 7 天活跃预测</p>
+            <div id="nlpForecast" class="keywords"></div>
+          </div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="nlp-thread">
+          <p class="slide-note">预测线条帮助规划运营排班或推送节奏。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>线程指标统计对话长度、最长串；预测部分采用线性回归估算未来 7 天消息总量。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>avg_len 升高表明讨论更深；预测下降需提前策划活动防止冷却。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="nlp-extra">
+      <div class="section-tag" data-section-tag="nlp-extra">高阶模型洞察</div>
+      <h2 class="slide-title" data-slide-title="nlp-extra">补充指数</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div class="keywords" id="nlpExtra"></div>
+          <div class="keywords" id="nlpTimePeaks" style="margin-top:0.5rem;"></div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="nlp-extra">
+          <p class="slide-note">指标涵盖话题频度、互动深度、情感导向、社交关联度及峰值时间。</p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>指数通过 NLP 结果标准化后加权生成；时间峰值直接读取 summary 的 hour/week/month。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>话题频度指数高说明讨论集中，可制定主题月；社交场景关联度低则需线下活动增强凝聚力。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="nlp-charts">
+      <div class="section-tag" data-section-tag="nlp-charts">高阶模型洞察</div>
+      <h2 class="slide-title" data-slide-title="nlp-charts">自动嵌入补充图表</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div id="nlpCharts" class="grid"></div>
+        </div>
+        <div class="panel copy-block copy-panel" data-copy-id="nlp-charts">
+          <p class="slide-note">
+            从 analysis_report.html 动态提取典型图表，保证 PPT 网页含有原报告中的视觉证据。
+          </p>
+          <p class="slide-note">
+            <strong>技术说明：</strong>前端通过 DOMParser 抽取 Base64 图像，保留最多 4 张典型图，实现“报告→幻灯片”自动化。
+          </p>
+          <p class="slide-note">
+            <strong>分析要点：</strong>补充图覆盖未在主仪表展示的视角，确保汇报材料完整。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="ci-topic">
+      <div class="section-tag" data-section-tag="ci-topic">Conversation Insights</div>
+      <h2 class="slide-title" data-slide-title="ci-topic">核心话题覆盖率</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div class="mini-grid">
+            <div>
+              <p class="metric-label">话题覆盖率</p>
+              <p class="metric" id="ciTopicCoverage">-</p>
+            </div>
+            <div>
+              <p class="metric-label">有效分词</p>
+              <p class="mini-metric" id="ciTopicTokens">-</p>
+            </div>
+          </div>
+          <table class="insight-table" id="ciTopicTable">
+            <tbody>
+              <tr><td>加载中…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel copy-block">
+          <div class="copy-panel">
+            <p class="slide-note" id="ciTopicNarrative">加载中…</p>
+          </div>
+          <div class="copy-panel" data-copy-id="ci-topic">
+            <p class="slide-note">
+              <strong>技术说明：</strong>conversation_insights.json 来自 <code>generate_conversation_insights.py</code> 对 NLP 结果的聚合；表格展示核心话题权重。
+            </p>
+            <p class="slide-note">
+              <strong>分析要点：</strong>覆盖率衡量“主话题是否被策略覆盖”，可量化 KPI。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="ci-temporal">
+      <div class="section-tag" data-section-tag="ci-temporal">Conversation Insights</div>
+      <h2 class="slide-title" data-slide-title="ci-temporal">时间峰值卡片</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div class="mini-grid">
+            <div>
+              <p class="mini-label">高峰小时</p>
+              <p class="mini-metric" id="ciPeakHour">-</p>
+              <p class="tagline" id="ciPeakHourCount"></p>
+            </div>
+            <div>
+              <p class="mini-label">峰值日期</p>
+              <p class="mini-metric" id="ciPeakDay">-</p>
+              <p class="tagline" id="ciPeakDayCount"></p>
+            </div>
+            <div>
+              <p class="mini-label">周内节奏</p>
+              <p class="mini-metric" id="ciWeekdayPattern">-</p>
+              <p class="tagline">核心活跃日</p>
+            </div>
+            <div>
+              <p class="mini-label">周末/工作日</p>
+              <p class="mini-metric" id="ciWeekendShare">-</p>
+              <p class="tagline">周末活跃强度</p>
+            </div>
+          </div>
+        </div>
+        <div class="panel copy-block">
+          <div class="copy-panel">
+            <p class="slide-note" id="ciTemporalNarrative">加载中…</p>
+          </div>
+          <div class="copy-panel" data-copy-id="ci-temporal">
+            <p class="slide-note">
+              <strong>技术说明：</strong>峰值信息来自对所有消息时间戳的统计（hour/day/weekday share），与 conversation_insights 文件一致。
+            </p>
+            <p class="slide-note">
+              <strong>分析要点：</strong>根据 peak hour/peak day 制定官方活动时间，确保覆盖最大人群。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="ci-scene">
+      <div class="section-tag" data-section-tag="ci-scene">Conversation Insights</div>
+      <h2 class="slide-title" data-slide-title="ci-scene">社交场景关联</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <p class="metric-label">社交场景关联度</p>
+          <p class="metric" id="ciSceneMain">-</p>
+          <table class="insight-table" id="ciSceneTable">
+            <tbody>
+              <tr><td>加载中…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel copy-block">
+          <div class="copy-panel">
+            <p class="slide-note" id="ciSceneNarrative">加载中…</p>
+          </div>
+          <div class="copy-panel" data-copy-id="ci-scene">
+            <p class="slide-note">
+              <strong>技术说明：</strong>场景标签结合 NLP 意图与自定义词典得出，输出主场景及补充洞察。
+            </p>
+            <p class="slide-note">
+              <strong>分析要点：</strong>“社团活动”场景占比高可扩大资源；“学业求助”场景高则要对接教务资源。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="ci-interaction">
+      <div class="section-tag" data-section-tag="ci-interaction">Conversation Insights</div>
+      <h2 class="slide-title" data-slide-title="ci-interaction">互动深度</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div class="mini-grid">
+            <div>
+              <p class="mini-label">深度指数</p>
+              <p class="mini-metric" id="ciInteractionIndex">-</p>
+            </div>
+            <div>
+              <p class="mini-label">均值</p>
+              <p class="mini-metric" id="ciInteractionAvg">-</p>
+            </div>
+            <div>
+              <p class="mini-label">中位数</p>
+              <p class="mini-metric" id="ciInteractionMedian">-</p>
+            </div>
+            <div>
+              <p class="mini-label">≥5条占比</p>
+              <p class="mini-metric" id="ciInteractionRich">-</p>
+            </div>
+          </div>
+          <table class="insight-table" id="ciInteractionTable">
+            <tbody>
+              <tr><td>加载中…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel copy-block">
+          <div class="copy-panel">
+            <p class="slide-note" id="ciInteractionNarrative">加载中…</p>
+          </div>
+          <div class="copy-panel" data-copy-id="ci-interaction">
+            <p class="slide-note">
+              <strong>技术说明：</strong>互动指标来源于线程统计，计算发言深度、均值、中位数等；≥5条占比作为“深度互动率”。
+            </p>
+            <p class="slide-note">
+              <strong>分析要点：</strong>深度指数高代表讨论意愿强，适合投放长周期项目；若低，需要运营引导问答。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="ci-sentiment">
+      <div class="section-tag" data-section-tag="ci-sentiment">Conversation Insights</div>
+      <h2 class="slide-title" data-slide-title="ci-sentiment">情感价值导向</h2>
+      <div class="split-container">
+        <div class="panel visual-block">
+          <div class="mini-grid">
+            <div>
+              <p class="mini-label">情感指数</p>
+              <p class="mini-metric" id="ciSentimentIndex">-</p>
+            </div>
+            <div>
+              <p class="mini-label">平均得分</p>
+              <p class="mini-metric" id="ciSentimentMean">-</p>
+            </div>
+          </div>
+          <table class="insight-table" id="ciSentimentTable">
+            <tbody>
+              <tr><td>加载中…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel copy-block">
+          <div class="copy-panel">
+            <p class="slide-note" id="ciSentimentNarrative">加载中…</p>
+          </div>
+          <div class="copy-panel" data-copy-id="ci-sentiment">
+            <p class="slide-note">
+              <strong>技术说明：</strong>情感值结合 NLP 得分与人工权重，生成情感指数/平均得分，并输出 top 场景。
+            </p>
+            <p class="slide-note">
+              <strong>分析要点：</strong>情感指数高说明社群氛围友好，可作为对外宣传；指数低需及时干预。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="summary">
+      <div class="section-tag" data-section-tag="summary">行动建议</div>
+      <h2 class="slide-title" data-slide-title="summary">关键结论 & 下一步</h2>
+      <div class="two-column">
+        <div class="panel">
+          <h3>增长 & 运营</h3>
+          <p class="slide-note">
+            · 维护桥接指数 TOP 人群，组建“扩散矩阵”<br />
+            · 根据高峰小时安排活动推送<br />
+            · 对低留存话题设置内容补贴，结合 Cohort 诊断活动质量<br />
+            · 以关键词热度作为选题库，形成“热词—活动—反馈”闭环
+          </p>
+        </div>
+        <div class="panel">
+          <h3>治理 & 风险</h3>
+          <p class="slide-note">
+            · 夜聊异常 + 毒性词 = 重点陪伴对象<br />
+            · 高风险清单推送至辅导员值班群，形成“日报”<br />
+            · 持续运行 NLP/KMeans，监控情绪 / 场景 / 互动变化，完善预案
+          </p>
+        </div>
+      </div>
+      <div class="panel">
+        <p class="slide-note">
+          <strong>技术沉淀：</strong>本仪表通过 Python 数据管道（清洗/NLP/KMeans）、Chart.js + ECharts 可视化，以及 DOMParser 自动嵌入报告图，实现“PPT 网页化”展示，可直接作为商务智能课程答辩材料。
+        </p>
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/force-graph@1.43.4/dist/force-graph.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2.1.0/dist/echarts-wordcloud.min.js"></script>
+    <script>
+      async function loadData() {
+        const res = await fetch("dashboard_data.json");
+        if (!res.ok) throw new Error("dashboard_data.json 未找到");
+        return res.json();
+      }
+
+      async function loadAnalysisCharts() {
+        const res = await fetch("analysis_report.html");
+        if (!res.ok) throw new Error("analysis_report.html 未找到");
+        const html = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+        const imgs = Array.from(doc.querySelectorAll("img[src^='data:image/png;base64']"));
+        const target = document.getElementById("nlpCharts");
+        if (!target) return;
+        if (!imgs.length) {
+          target.innerHTML = "<div class='insight'>未找到可嵌入图表。</div>";
+          return;
+        }
+        const limited = imgs.slice(0, 4); // 取前四个典型图表（活跃用户/小时/星期/每日）
+        target.innerHTML = limited
+          .map(
+            (img, idx) =>
+              `<div class="panel" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
+                <img alt="analysis chart ${idx + 1}" src="${img.src}" style="width:100%;border:none;"/>
+              </div>`
+          )
+          .join("");
+      }
+
+      async function loadConversationInsights() {
+        const res = await fetch("conversation_insights.json");
+        if (!res.ok) throw new Error("conversation_insights.json 未找到");
+        return res.json();
+      }
+
+      async function loadSectionConfig() {
+        try {
+          const res = await fetch("section_titles.json");
+          if (!res.ok) throw new Error("section_titles.json 未找到");
+          return res.json();
+        } catch (err) {
+          console.warn("section config load failed", err.message);
+          return null;
+        }
+      }
+
+      async function loadCopyConfig() {
+        try {
+          const res = await fetch("slide_copy.json");
+          if (!res.ok) throw new Error("slide_copy.json 未找到");
+          return res.json();
+        } catch (err) {
+          console.warn("copy config load failed", err.message);
+          return {};
+        }
+      }
+
+      function applySectionConfig(config) {
+        if (!config) return;
+        const slides = config.slides || {};
+        Object.entries(slides).forEach(([id, meta]) => {
+          const tagEl = document.querySelector(`[data-section-tag=\"${id}\"]`);
+          if (tagEl && meta.sectionTag) tagEl.textContent = meta.sectionTag;
+          const titleEl = document.querySelector(`[data-slide-title=\"${id}\"]`);
+          if (titleEl && meta.title) titleEl.textContent = meta.title;
+        });
+        const agendaList = document.getElementById("agendaList");
+        if (agendaList && Array.isArray(config.groups)) {
+          agendaList.innerHTML = config.groups
+            .map((group) => {
+              const anchor = group.slides && group.slides.length ? `#${group.slides[0]}` : "#";
+              return `<li class=\"toc-item\"><a href=\"${anchor}\">${group.label}</a><span>${group.description || ""}</span></li>`;
+            })
+            .join("");
+        }
+      }
+
+      function applySlideCopy(copyMap) {
+        if (!copyMap) return;
+        document.querySelectorAll("[data-copy-id]").forEach((panel) => {
+          const id = panel.dataset.copyId;
+          if (!id || !(id in copyMap)) return;
+          const copy = Array.isArray(copyMap[id]) ? copyMap[id] : [copyMap[id]];
+          panel.innerHTML = copy.map((text) => `<p class=\"slide-note\">${text}</p>`).join("");
+        });
+      }
+
+      const NLP_SUMMARY_EMBEDDED = {"basic_stats": {"messages": 115904, "users": 4025, "sessions": 2045, "span": "2025-09-24 09:03:08 ~ 2025-11-08 07:19:09"}, "classification_counts": {"未分类": 108394, "闲聊": 2223, "争吵": 438, "技术交流": 552, "广告": 787, "求助": 3054, "通知": 456}, "sentiment_counts": {"中性": 114631, "负向": 326, "正向": 947}, "toxicity_counts": {"正常": 115683, "可疑": 221}, "intent_counts": {"闲聊/其他": 106804, "问句/求助": 8108, "回应": 407, "通知/命令": 585}, "thread_stats": {"threads": 12500, "avg_length": 9.27232, "median_length": 1.0, "longest": 860}, "forecast": {"slope": -13.459512796793106, "predicted_next_7_days_total": 15043, "daily_forecast": [2189, 2176, 2162, 2149, 2136, 2122, 2109]}, "time_peaks": {"hour": 12, "weekday": "Monday", "month": "2025-10"}, "topic_frequency_index": 0.006238402420825926, "social_correlation_index": 0.6389, "topic_depth_index": 9.27232, "emotional_orientation_index": 0.0054};
+
+      async function loadNlpSummary() {
+        try {
+          const res = await fetch("analysis_report_summary.json");
+          if (!res.ok) throw new Error("analysis_report_summary.json 未找到");
+          return res.json();
+        } catch (err) {
+          console.warn("loadNlpSummary fallback to embedded data:", err.message);
+          return NLP_SUMMARY_EMBEDDED;
+        }
+      }
+
+      if (typeof Chart !== "undefined" && typeof ChartDataLabels !== "undefined") {
+        Chart.register(ChartDataLabels);
+      }
+
+      function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+
+      function createTopUsersCharts(data) {
+        const ctx = document.getElementById("topUsersChart");
+        const labels = data.topUsers.map((u) => u.id);
+        const totals = data.topUsers.map((u) => u.totalMessages);
+        const sessions = data.topUsers.map((u) => u.uniqueSessions);
+
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels,
+            datasets: [
+              {
+                label: "消息量",
+                data: totals,
+                backgroundColor: "rgba(0, 255, 209, 0.5)",
+                borderColor: "rgba(0, 255, 209, 1)",
+                borderRadius: 6,
+              },
+              {
+                label: "跨群数量",
+                data: sessions,
+                yAxisID: "y1",
+                type: "line",
+                borderColor: "#facc15",
+                backgroundColor: "rgba(250, 204, 21, 0.2)",
+                tension: 0.3,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { color: "#d1d5db" },
+              },
+              y1: {
+                beginAtZero: true,
+                position: "right",
+                grid: { drawOnChartArea: false },
+                ticks: { color: "#facc15" },
+              },
+              x: {
+                ticks: { color: "#d1d5db" },
+              },
+            },
+            plugins: {
+              legend: { labels: { color: "#e2e8f0" } },
+            },
+          },
+        });
+
+        const bridgeCtx = document.getElementById("bridgeChart");
+        new Chart(bridgeCtx, {
+          type: "scatter",
+          data: {
+            datasets: [
+              {
+                label: "桥接指数 vs 活跃天",
+                data: data.topUsers.map((u) => ({
+                  x: u.activeDays,
+                  y: u.bridgeScore,
+                  r: Math.sqrt(u.totalMessages) / 2,
+                  user: u.id,
+                })),
+                backgroundColor: "rgba(99, 102, 241, 0.5)",
+                borderColor: "#6366f1",
+              },
+            ],
+          },
+          options: {
+            scales: {
+              x: {
+                title: { display: true, text: "活跃天数" },
+                ticks: { color: "#e2e8f0" },
+              },
+              y: {
+                title: { display: true, text: "桥接指数" },
+                ticks: { color: "#e2e8f0" },
+              },
+            },
+            plugins: {
+              legend: { labels: { color: "#e2e8f0" } },
+              tooltip: {
+                callbacks: {
+                  label(ctx) {
+                    const item = ctx.raw;
+                    return `${item.user} · 桥接 ${item.y} · 活跃 ${item.x} 天`;
+                  },
+                },
+              },
+            },
+          },
+        });
+
+        const top = data.topUsers[0];
+        const insight = document.getElementById("topUsersInsight");
+        insight.textContent = `${top.id} 连续 ${
+          top.activeDays
+        } 天活跃，单日最高消息密度突破 ${formatNumber(
+          Math.round(top.totalMessages / top.activeDays)
+        )} 条；前十用户覆盖 ${
+          data.topUsers.reduce((acc, u) => acc + u.uniqueSessions, 0) / data.topUsers.length
+        } 个群，足以撑起“校园扩散矩阵”。`;
+      }
+
+      function createSessionChart(data) {
+        const ctx = document.getElementById("sessionChart");
+        if (ctx && ctx.getContext) {
+          const labels = data.topSessions.map((s) => s.name);
+          const messages = data.topSessions.map((s) => s.messages);
+          const inequality = data.topSessions.map((s) => s.gini);
+
+          new Chart(ctx, {
+            type: "bar",
+            data: {
+              labels,
+              datasets: [
+                {
+                  label: "消息量",
+                  data: messages,
+                  backgroundColor: "rgba(248, 113, 113, 0.6)",
+                  borderRadius: 6,
+                },
+                {
+                  label: "参与度 Gini",
+                  data: inequality,
+                  type: "line",
+                  yAxisID: "y1",
+                  borderColor: "#38bdf8",
+                  backgroundColor: "rgba(56, 189, 248, 0.2)",
+                  tension: 0.4,
+                },
+              ],
+            },
+            options: {
+              interaction: { mode: "index", intersect: false },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: { color: "#e2e8f0" },
+                },
+                y1: {
+                  beginAtZero: true,
+                  position: "right",
+                  grid: { drawOnChartArea: false },
+                  ticks: { color: "#38bdf8" },
+                },
+                x: { ticks: { color: "#e2e8f0" } },
+              },
+              plugins: {
+                legend: { labels: { color: "#e2e8f0" } },
+              },
+            },
+          });
+        }
+
+        const mostConcentrated = [...data.topSessions].sort(
+          (a, b) => b.topUserShare - a.topUserShare
+        )[0];
+        document.getElementById("sessionHighlight").textContent = mostConcentrated.name;
+        document.getElementById(
+          "sessionInsight"
+        ).textContent = `${mostConcentrated.name}（${mostConcentrated.id}）中最活跃 1 人贡献 ${
+          Math.round(mostConcentrated.topUserShare * 1000) / 10
+        }% 消息，易形成“单点喧哗”。建议安排运营干预，引导更多成员参与。`;
+      }
+
+      function createTemporalCharts(data) {
+        const dailyCtx = document.getElementById("dailyTrendChart");
+        if (dailyCtx && dailyCtx.getContext) {
+          new Chart(dailyCtx, {
+            type: "line",
+            data: {
+              labels: data.activityByDay.map((d) => d.day),
+              datasets: [
+                {
+                  label: "每日消息量",
+                  data: data.activityByDay.map((d) => d.messages),
+                  borderColor: "#22d3ee",
+                  backgroundColor: "rgba(34, 211, 238, 0.2)",
+                  fill: true,
+                  tension: 0.3,
+                },
+              ],
+            },
+            options: {
+              scales: {
+                x: { ticks: { color: "#e2e8f0" } },
+                y: { ticks: { color: "#e2e8f0" }, beginAtZero: true },
+              },
+              plugins: { legend: { labels: { color: "#e2e8f0" } } },
+            },
+          });
+        }
+
+        const hourCtx = document.getElementById("hourlyChart");
+        if (hourCtx && hourCtx.getContext) {
+          new Chart(hourCtx, {
+            type: "bar",
+            data: {
+              labels: data.activityByHour.map((h) => h.hour),
+              datasets: [
+                {
+                  label: "按小时消息量",
+                  data: data.activityByHour.map((h) => h.messages),
+                  backgroundColor: "rgba(168, 85, 247, 0.6)",
+                },
+              ],
+            },
+            options: {
+              scales: {
+                x: { ticks: { color: "#e2e8f0", maxRotation: 90, minRotation: 90 } },
+                y: { ticks: { color: "#e2e8f0" }, beginAtZero: true },
+              },
+              plugins: { legend: { labels: { color: "#e2e8f0" } } },
+            },
+          });
+        }
+
+        const list = document.getElementById("keywordList");
+        data.keywords.forEach((k) => {
+          const tag = document.createElement("span");
+          tag.className = "keyword";
+          tag.textContent = `${k.token} · ${k.count}`;
+          list.appendChild(tag);
+        });
+      }
+
+      function percent(part, total) {
+        if (!total) return "0%";
+        return `${Math.round((part / total) * 1000) / 10}%`;
+      }
+
+      function renderNlpSection(summary) {
+        const basic = summary.basic_stats || {};
+        const setText = (id, text) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = text;
+        };
+        setText("nlpMessages", basic.messages ? `${basic.messages} 条消息` : "-");
+        setText("nlpUsers", `${basic.users || 0} 用户`);
+        setText("nlpSessions", `${basic.sessions || 0} 会话`);
+        setText("nlpSpan", basic.span || "");
+
+        const fillPills = (id, data) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          el.innerHTML = Object.entries(data || {})
+            .map(([k, v]) => `<span class="keyword">${k} · ${v}</span>`)
+            .join("");
+        };
+        fillPills("nlpClassification", summary.classification_counts);
+        fillPills("nlpIntent", summary.intent_counts);
+        fillPills("nlpSentiment", summary.sentiment_counts);
+        fillPills("nlpToxicity", summary.toxicity_counts);
+
+        const threads = summary.thread_stats || {};
+        const threadEl = document.getElementById("nlpThreads");
+        if (threadEl) {
+          threadEl.innerHTML = [
+            ["threads", threads.threads],
+            ["avg_len", threads.avg_length ? threads.avg_length.toFixed(1) : "-"],
+            ["median", threads.median_length],
+            ["longest", threads.longest],
+          ]
+            .filter(([, v]) => v !== undefined)
+            .map(([k, v]) => `<span class="keyword">${k}: ${v}</span>`)
+            .join("");
+        }
+
+        const forecast = summary.forecast || {};
+        const forecastEl = document.getElementById("nlpForecast");
+        if (forecastEl) {
+          forecastEl.innerHTML = [
+            ["斜率", forecast.slope ? forecast.slope.toFixed(2) : "-"],
+            ["7日总量", forecast.predicted_next_7_days_total],
+          ]
+            .filter(([, v]) => v !== undefined)
+            .map(([k, v]) => `<span class="keyword">${k}: ${v}</span>`)
+            .join("");
+        }
+
+        const extraEl = document.getElementById("nlpExtra");
+        if (extraEl) {
+          const fmt = (val, digits = 4) =>
+            val === 0 ? "0" : val ? Number(val).toFixed(digits) : "-";
+          const extras = [
+            ["核心话题频度指数", fmt(summary.topic_frequency_index, 4)],
+            ["话题互动深度", fmt(summary.topic_depth_index, 2)],
+            ["情感价值导向", fmt(summary.emotional_orientation_index, 4)],
+            ["社交场景关联度", fmt(summary.social_correlation_index, 4)],
+          ];
+          extraEl.innerHTML = extras
+            .map(([k, v]) => `<span class="keyword">${k}: ${v}</span>`)
+            .join("");
+        }
+        const timeEl = document.getElementById("nlpTimePeaks");
+        if (timeEl) {
+          const peaks = summary.time_peaks || {};
+          timeEl.innerHTML = [
+            ["峰值小时", peaks.hour ?? "-"],
+            ["峰值星期", peaks.weekday || "-"],
+            ["峰值月份", peaks.month || "-"],
+          ]
+            .map(([k, v]) => `<span class="keyword">${k}: ${v}</span>`)
+            .join("");
+        }
+      }
+
+      function renderConversationInsights(ci) {
+        if (!ci) return;
+        const setText = (id, text) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = text;
+        };
+
+        const buildTable = (id, headers, rows) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          if (!rows.length) {
+            el.innerHTML = `<tbody><tr><td colspan="${headers.length}">暂无数据</td></tr></tbody>`;
+            return;
+          }
+          const thead = `<thead><tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr></thead>`;
+          const tbody = `<tbody>${rows.join("")}</tbody>`;
+          el.innerHTML = thead + tbody;
+        };
+
+        if (ci.topic) {
+          const topic = ci.topic;
+          if (typeof topic.index === "number") setText("ciTopicCoverage", `${topic.index}%`);
+          if (typeof topic.total_tokens === "number")
+            setText("ciTopicTokens", `${formatNumber(topic.total_tokens)} 分词`);
+          setText("ciTopicNarrative", topic.narrative || "暂无补充说明。");
+          if (Array.isArray(topic.top_keywords)) {
+            const totalTokens = topic.total_tokens || 1;
+            const rows = topic.top_keywords.map(([kw, count]) => {
+              const share = totalTokens ? ((count / totalTokens) * 100).toFixed(2) : "0.00";
+              return `<tr><td>${kw}</td><td>${formatNumber(count)}</td><td>${share}%</td></tr>`;
+            });
+            buildTable("ciTopicTable", ["关键词", "次数", "占比"], rows);
+          }
+        }
+
+        if (ci.temporal) {
+          const temporal = ci.temporal;
+          const peakHour = temporal.peak_hour || {};
+          const peakDay = temporal.peak_day || {};
+          setText("ciPeakHour", peakHour.label || "-");
+          setText("ciPeakHourCount", peakHour.count ? `${formatNumber(peakHour.count)} 条` : "");
+          setText("ciPeakDay", peakDay.date || "-");
+          setText("ciPeakDayCount", peakDay.count ? `${formatNumber(peakDay.count)} 条` : "");
+          setText("ciWeekdayPattern", temporal.weekday_pattern || "-");
+          if (typeof temporal.weekend_percent === "number")
+            setText("ciWeekendShare", `${temporal.weekend_percent}%`);
+          setText("ciTemporalNarrative", temporal.narrative || "暂无补充说明。");
+        }
+
+        if (ci.scene) {
+          const scene = ci.scene;
+          if (scene.top_scene) {
+            setText(
+              "ciSceneMain",
+              `${scene.top_scene.label} · ${scene.top_scene.share || 0}%`
+            );
+          }
+          setText("ciSceneNarrative", scene.narrative || "暂无补充说明。");
+          if (Array.isArray(scene.table)) {
+            const rows = scene.table.map(([label, count, share]) => {
+              return `<tr><td>${label}</td><td>${formatNumber(count)}</td><td>${share}%</td></tr>`;
+            });
+            buildTable("ciSceneTable", ["场景", "消息量", "占比"], rows);
+          }
+        }
+
+        if (ci.interaction) {
+          const interaction = ci.interaction;
+          if (typeof interaction.index === "number")
+            setText("ciInteractionIndex", interaction.index);
+          if (typeof interaction.avg_per_session === "number")
+            setText("ciInteractionAvg", interaction.avg_per_session);
+          if (typeof interaction.median_per_session === "number")
+            setText("ciInteractionMedian", interaction.median_per_session);
+          if (typeof interaction.rich_session_ratio === "number")
+            setText("ciInteractionRich", `${interaction.rich_session_ratio}%`);
+          setText("ciInteractionNarrative", interaction.narrative || "暂无补充说明。");
+          if (Array.isArray(interaction.top_sessions)) {
+            const rows = interaction.top_sessions.map((session) => {
+              return `<tr><td>${session.session}</td><td>${formatNumber(
+                session.messages
+              )}</td></tr>`;
+            });
+            buildTable("ciInteractionTable", ["会话", "消息量"], rows);
+          }
+        }
+
+        if (ci.sentiment) {
+          const sentiment = ci.sentiment;
+          if (typeof sentiment.index === "number")
+            setText("ciSentimentIndex", sentiment.index);
+          if (typeof sentiment.mean_score === "number")
+            setText("ciSentimentMean", sentiment.mean_score);
+          setText("ciSentimentNarrative", sentiment.narrative || "暂无补充说明。");
+          const distribution = sentiment.distribution || {};
+          const shares = sentiment.shares || {};
+          const rows = Object.keys(distribution).map((label) => {
+            const count = distribution[label];
+            const share = shares[label];
+            return `<tr><td>${label}</td><td>${formatNumber(count)}</td><td>${share}%</td></tr>`;
+          });
+          buildTable("ciSentimentTable", ["极性", "消息量", "占比"], rows);
+        }
+      }
+
+      function createRetentionSection(data) {
+        const retention = data.retention || {};
+        const daily = retention.dailyActiveUsers || [];
+        const weekly = retention.weeklyEngagement || [];
+        const metrics = retention.metrics || {};
+
+        const dailyCtx = document.getElementById("dailyActiveChart");
+        new Chart(dailyCtx, {
+          type: "line",
+          data: {
+            labels: daily.map((d) => d.day),
+            datasets: [
+              {
+                label: "DAU",
+                data: daily.map((d) => d.users),
+                borderColor: "#34d399",
+                backgroundColor: "rgba(52, 211, 153, 0.2)",
+                fill: true,
+                tension: 0.35,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              x: { ticks: { color: "#e2e8f0" } },
+              y: { ticks: { color: "#e2e8f0" }, beginAtZero: true },
+            },
+            plugins: { legend: { labels: { color: "#e2e8f0" } } },
+          },
+        });
+
+        const weekCtx = document.getElementById("weeklyCohortChart");
+        new Chart(weekCtx, {
+          type: "bar",
+          data: {
+            labels: weekly.map((w) => w.week),
+            datasets: [
+              {
+                label: "新用户",
+                data: weekly.map((w) => w.newUsers),
+                backgroundColor: "rgba(250, 204, 21, 0.7)",
+                borderRadius: 6,
+                stack: "stack1",
+              },
+              {
+                label: "回访用户",
+                data: weekly.map((w) => w.returningUsers),
+                backgroundColor: "rgba(59, 130, 246, 0.7)",
+                borderRadius: 6,
+                stack: "stack1",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            interaction: { mode: "index", intersect: false },
+            scales: {
+              x: { stacked: true, ticks: { color: "#e2e8f0" } },
+              y: { stacked: true, ticks: { color: "#e2e8f0" }, beginAtZero: true },
+            },
+            plugins: { legend: { labels: { color: "#e2e8f0" } } },
+          },
+        });
+
+        const totalUsers = metrics.total_users || 0;
+        document.getElementById("retained7Metric").textContent = percent(
+          metrics.retained_7d || 0,
+          totalUsers
+        );
+        document.getElementById("retained30Metric").textContent = percent(
+          metrics.retained_30d || 0,
+          totalUsers
+        );
+        document.getElementById("responseMetric").textContent = `${
+          metrics.median_response_minutes ?? "-"
+        } 分钟`;
+      }
+
+      function createRiskSection(data) {
+        const risk = data.risk || {};
+        const late = risk.lateNight || [];
+        const keywords = risk.keywordAlerts || [];
+
+        const lateCtx = document.getElementById("lateNightChart");
+        new Chart(lateCtx, {
+          type: "line",
+          data: {
+            labels: late.map((d) => d.day),
+            datasets: [
+              {
+                label: "夜间消息",
+                data: late.map((d) => d.late_messages),
+                borderColor: "#f87171",
+                tension: 0.35,
+                fill: true,
+                backgroundColor: "rgba(248, 113, 113, 0.2)",
+              },
+              {
+                label: "占比",
+                data: late.map((d) => d.share * 100),
+                yAxisID: "y1",
+                borderColor: "#facc15",
+                borderDash: [6, 6],
+              },
+            ],
+          },
+          options: {
+            scales: {
+              x: { ticks: { color: "#e2e8f0" } },
+              y: { ticks: { color: "#e2e8f0" }, beginAtZero: true },
+              y1: {
+                position: "right",
+                ticks: { color: "#facc15", callback: (v) => `${v}%` },
+                grid: { drawOnChartArea: false },
+              },
+            },
+            plugins: { legend: { labels: { color: "#e2e8f0" } } },
+          },
+        });
+
+        const keywordCtx = document.getElementById("keywordAlertChart");
+        new Chart(keywordCtx, {
+          type: "bar",
+          data: {
+            labels: keywords.map((k) => k.keyword),
+            datasets: [
+              {
+                label: "敏感词次数",
+                data: keywords.map((k) => k.count),
+                backgroundColor: "rgba(248, 113, 113, 0.7)",
+                borderRadius: 6,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              x: { ticks: { color: "#e2e8f0" } },
+              y: { ticks: { color: "#e2e8f0" }, beginAtZero: true },
+            },
+            plugins: { legend: { labels: { color: "#e2e8f0" } } },
+          },
+        });
+
+        const sessionList = document.getElementById("riskSessionList");
+        if (!risk.sessionRisks || risk.sessionRisks.length === 0) {
+          sessionList.textContent = "暂无明显高风险会话。";
+          return;
+        }
+        sessionList.innerHTML = risk.sessionRisks
+          .map(
+            (s) =>
+              `${s.name}（${s.id}） · 敏感词 ${s.flagged_messages} 次 · 夜间消息 ${s.late_night_messages} 条`
+          )
+          .join("<br/>");
+      }
+
+      function createTopicGraphSection(data) {
+        if (typeof ForceGraph === "undefined") {
+          const select = document.getElementById("topicSelect");
+          const meta = document.getElementById("topicMeta");
+          if (select) select.disabled = true;
+          if (meta) meta.textContent = "网络受限，无法加载话题互动力导图。";
+          return;
+        }
+        const topics = data.topicGraphs || [];
+        const select = document.getElementById("topicSelect");
+        const meta = document.getElementById("topicMeta");
+        const insight = document.getElementById("topicInsight");
+        const container = document.getElementById("topicGraph");
+        const connections = document.getElementById("topicConnections");
+        const nodeInfo = document.getElementById("topicNodeInfo");
+        const zoomButtons = document.querySelectorAll("[data-topic-zoom]");
+        if (!select || !container) return;
+
+        select.innerHTML = "";
+        if (!topics.length) {
+          select.disabled = true;
+          select.innerHTML = "<option>暂无满足条件的话题窗口</option>";
+          meta.textContent = "暂无检测到活跃话题，增加消息量后重新生成。";
+          insight.textContent = "";
+          if (connections) connections.textContent = "";
+          if (nodeInfo) nodeInfo.textContent = "";
+          container.innerHTML = "";
+          return;
+        }
+
+        select.disabled = false;
+        topics.forEach((topic, index) => {
+          const option = document.createElement("option");
+          option.value = topic.id;
+          option.textContent = `「${topic.keyword}」 · ${topic.sessionName}`;
+          if (index === 0) option.selected = true;
+          select.appendChild(option);
+        });
+
+        const graph = ForceGraph()(container)
+          .width(container.clientWidth)
+          .height(container.clientHeight)
+          .nodeLabel((node) => `${node.label}\n消息 ${node.messages}`)
+          .nodeVal((node) => Math.max(2, node.messages))
+          .nodeRelSize(6)
+          .nodeColor((node) => (node.isTrigger ? "#f97316" : "#38bdf8"))
+          .linkColor(() => "rgba(255,255,255,0.35)")
+          .linkWidth((edge) => Math.max(1, Math.log(edge.weight + 1)))
+          .linkDirectionalParticles(2)
+          .linkDirectionalParticleSpeed((edge) => 0.001 * Math.max(1, edge.weight))
+          .backgroundColor("rgba(0,0,0,0)")
+          .cooldownTicks(200)
+          .d3VelocityDecay(0.25);
+
+        const linkForce = graph.d3Force("link");
+
+        function updateLinkDistance(nodes = []) {
+          if (!linkForce || !linkForce.distance) return;
+          if (!nodes.length) {
+            linkForce.distance(140);
+            return;
+          }
+          const maxVal = Math.max(...nodes.map((node) => Math.max(2, node.messages)));
+          const diameter = maxVal * 6; // nodeRelSize multiplier
+          linkForce.distance(Math.max(160, diameter + 40));
+          graph.d3ReheatSimulation();
+        }
+
+        if (nodeInfo) {
+          nodeInfo.textContent = "悬停节点查看详情，单击可固定/取消固定";
+        }
+
+        zoomButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const action = btn.dataset.topicZoom;
+            if (!action) return;
+            if (action === "reset") {
+              graph.zoomToFit(400, 60);
+              return;
+            }
+            const factor = action === "in" ? 1.25 : 0.8;
+            const current = graph.zoom() || 1;
+            graph.zoom(current * factor, 400);
+          });
+        });
+
+        function render(topic) {
+          graph.graphData({ nodes: topic.nodes, links: topic.edges });
+          updateLinkDistance(topic.nodes);
+          graph.zoomToFit(400, 60);
+          meta.textContent = `${topic.sessionName} · ${topic.start} ~ ${topic.end} · ${topic.uniqueUsers} 人参与 · ${topic.messages} 条消息`;
+          insight.textContent = topic.insight || "";
+          if (connections) {
+            if (topic.topConnections && topic.topConnections.length) {
+              connections.innerHTML = topic.topConnections
+                .map((pair) => `${pair.source} ⇄ ${pair.target} · 互动强度 ${pair.weight}`)
+                .join("<br/>");
+            } else {
+              connections.textContent = "暂无明显的高频互动组合";
+            }
+          }
+        }
+
+        graph.onNodeHover((node) => {
+          container.style.cursor = node ? "pointer" : "default";
+          if (!nodeInfo) return;
+          nodeInfo.textContent = node
+            ? `${node.label}（${node.id}） · 消息 ${node.messages} · ${node.isTrigger ? "触发关键词" : "响应"}`
+            : "悬停节点查看详情，单击可固定/取消固定";
+        });
+
+        graph.onNodeClick((node) => {
+          if (!node) return;
+          if (typeof node.fx === "number" && typeof node.fy === "number") {
+            node.fx = undefined;
+            node.fy = undefined;
+          } else {
+            node.fx = node.x;
+            node.fy = node.y;
+          }
+          if (nodeInfo) {
+            nodeInfo.textContent = `${node.label}（${node.id}） · 消息 ${node.messages} · ${node.isTrigger ? "触发关键词" : "响应"} · 已${
+              typeof node.fx === "number" ? "固定" : "解除固定"
+            }`;
+          }
+        });
+
+        select.addEventListener("change", () => {
+          const topic = topics.find((item) => item.id === select.value);
+          if (topic) render(topic);
+        });
+
+        const initial = topics[0];
+        render(initial);
+        window.addEventListener("resize", () => {
+          graph.width(container.clientWidth);
+          graph.height(container.clientHeight);
+        });
+      }
+
+      function renderTable(targetId, title, rows) {
+        const el = document.getElementById(targetId);
+        if (!el) return;
+        if (!rows || !rows.length) {
+          el.textContent = `${title}暂无数据`;
+          return;
+        }
+        const total = rows.reduce((acc, r) => acc + (r.count || 0), 0);
+        const html = rows
+          .map(
+            (r) =>
+              `${r.name}：${r.count} （${((r.count / (total || 1)) * 100).toFixed(1)}%）`
+          )
+          .join("<br/>");
+        el.innerHTML = html;
+      }
+
+      function createContentTopicCharts(data) {
+        const ct = data.contentTopic || {};
+        const contentTypes = ct.contentTypes || [];
+        const formats = ct.formats || [];
+        const topicsTotals = ct.topicsTotals || [];
+        const topicsByDay = ct.topicsByDay || [];
+        const wordcloud = ct.wordcloud || [];
+
+        const contentCtx = document.getElementById("contentPie");
+        if (contentCtx) {
+          new Chart(contentCtx, {
+            type: "doughnut",
+            data: {
+              labels: contentTypes.map((c) => c.name),
+              datasets: [
+                {
+                  data: contentTypes.map((c) => c.count),
+                  backgroundColor: [
+                    "#22d3ee",
+                    "#a78bfa",
+                    "#f87171",
+                    "#fbbf24",
+                    "#34d399",
+                    "#60a5fa",
+                    "#f472b6",
+                    "#fb7185",
+                    "#c084fc",
+                    "#2dd4bf",
+                  ],
+                },
+              ],
+            },
+            options: {
+              plugins: {
+                legend: { labels: { color: "#e2e8f0" } },
+              },
+            },
+          });
+        }
+
+        const formatCtx = document.getElementById("formatPie");
+        if (formatCtx) {
+          new Chart(formatCtx, {
+            type: "doughnut",
+            data: {
+              labels: formats.map((f) => f.name),
+              datasets: [
+                {
+                  data: formats.map((f) => f.count),
+                  backgroundColor: ["#38bdf8", "#f97316", "#f43f5e", "#a855f7", "#10b981"],
+                },
+              ],
+            },
+            options: {
+              plugins: { legend: { labels: { color: "#e2e8f0" } } },
+            },
+          });
+        }
+
+        const topicCtx = document.getElementById("topicTrend");
+        if (topicCtx && topicCtx.getContext) {
+          const days = topicsByDay.map((t) => t.day);
+          const topicNames = topicsTotals.map((t) => t.name);
+          const colors = ["#22d3ee", "#10b981", "#f59e0b", "#ef4444", "#a855f7", "#fb7185", "#2dd4bf"];
+          const datasets = topicNames.map((name, idx) => ({
+            label: name,
+            data: topicsByDay.map((d) => (d.topics && d.topics[name]) || 0),
+            borderColor: colors[idx % colors.length],
+            fill: false,
+            tension: 0.3,
+          }));
+          new Chart(topicCtx, {
+            type: "line",
+            data: { labels: days, datasets },
+            options: {
+              interaction: { mode: "index", intersect: false },
+              scales: {
+                x: { ticks: { color: "#e2e8f0" } },
+                y: { ticks: { color: "#e2e8f0" }, beginAtZero: true },
+              },
+              plugins: { legend: { labels: { color: "#e2e8f0" } } },
+            },
+          });
+        }
+
+        renderTable("contentTable", "内容类型", contentTypes);
+        renderTable("topicTable", "话题", topicsTotals);
+
+        const wcEl = document.getElementById("wordCloud");
+        if (wcEl && wordcloud.length && typeof echarts !== "undefined") {
+          const wc = echarts.init(wcEl);
+          wc.setOption({
+            tooltip: {},
+            series: [
+              {
+                type: "wordCloud",
+                shape: "circle",
+                gridSize: 8,
+                sizeRange: [12, 60],
+                rotationRange: [-45, 45],
+                textStyle: {
+                  color: () =>
+                    `rgb(${Math.round(Math.random() * 160)}, ${Math.round(
+                      Math.random() * 160
+                    )}, ${Math.round(Math.random() * 160)})`,
+                },
+                data: wordcloud,
+              },
+            ],
+          });
+          window.addEventListener("resize", () => wc.resize());
+        }
+
+        const customCtx = document.getElementById("customFormatPie");
+        if (customCtx && typeof Chart !== "undefined") {
+          const labels = ["表情包", "语音", "图片", "视频", "文字"];
+          const values = [10598, 214, 52522, 667, 148853];
+          const colors = ["#f59e0b", "#a855f7", "#38bdf8", "#ef4444", "#10b981"];
+          new Chart(customCtx, {
+            type: "doughnut",
+            data: {
+              labels,
+              datasets: [
+                {
+                  data: values,
+                  backgroundColor: colors,
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              layout: { padding: 12 },
+              plugins: {
+                legend: { labels: { color: "#e2e8f0" } },
+                datalabels: {
+                  color: "#0f172a",
+                  backgroundColor: "rgba(255,255,255,0.92)",
+                  borderRadius: 6,
+                  padding: 6,
+                  align: "center",
+                  anchor: "center",
+                  offset: 4,
+                  clamp: true,
+                  formatter: (val, ctx) => {
+                    const total = values.reduce((a, b) => a + b, 0);
+                    const pct = ((val / total) * 100).toFixed(1);
+                    return `${labels[ctx.dataIndex]}\\n${val} (${pct}%)`;
+                  },
+                },
+              },
+            },
+          });
+        }
+
+        const customContentCtx = document.getElementById("customContentPie");
+        if (customContentCtx && typeof Chart !== "undefined") {
+          const labels = ["交易类", "生活类", "资讯类", "分享类", "吐槽类", "求助类"];
+          const values = [1669, 936, 751, 714, 188, 310];
+          const colors = ["#f59e0b", "#10b981", "#38bdf8", "#a78bfa", "#f43f5e", "#fb7185"];
+          new Chart(customContentCtx, {
+            type: "doughnut",
+            data: {
+              labels,
+              datasets: [
+                {
+                  data: values,
+                  backgroundColor: colors,
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              layout: { padding: 12 },
+              plugins: {
+                legend: { labels: { color: "#e2e8f0" } },
+                datalabels: {
+                  color: "#0f172a",
+                  backgroundColor: "rgba(255,255,255,0.92)",
+                  borderRadius: 6,
+                  padding: 6,
+                  align: "center",
+                  anchor: "center",
+                  offset: 4,
+                  clamp: true,
+                  formatter: (val, ctx) => {
+                    const total = values.reduce((a, b) => a + b, 0);
+                    const pct = ((val / total) * 100).toFixed(1);
+                    return `${labels[ctx.dataIndex]}\n${val} (${pct}%)`;
+                  },
+                },
+              },
+            },
+          });
+        }
+
+        const manualTopicCtx = document.getElementById("manualTopicBar");
+        const manualTopics = data.topicTypeCounts || [];
+        if (manualTopicCtx && manualTopics.length && typeof Chart !== "undefined") {
+          new Chart(manualTopicCtx, {
+            type: "bar",
+            data: {
+              labels: manualTopics.map((item) => item.name),
+              datasets: [
+                {
+                  label: "消息数量",
+                  data: manualTopics.map((item) => item.count),
+                  backgroundColor: "rgba(96, 165, 250, 0.7)",
+                  borderRadius: 8,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              scales: {
+                x: { ticks: { color: "#e2e8f0" } },
+                y: { ticks: { color: "#e2e8f0" }, beginAtZero: true },
+              },
+              plugins: {
+                legend: { labels: { color: "#e2e8f0" } },
+              },
+            },
+          });
+        }
+      }
+
+      function createKMeansSection(data) {
+        const insights = data.kmeansInsights || {};
+        const contentClusters = insights.contentClusters || [];
+        const contentPanel = document.getElementById("contentClusterPanel");
+        if (contentPanel) {
+          if (!contentClusters.length) {
+            contentPanel.textContent = "暂无聚类结果，运行 kmeans_analysis.py 后重试。";
+          } else {
+            contentPanel.innerHTML = contentClusters
+              .map(
+                (cluster) => `
+                <div style="margin-bottom:1rem;padding:1rem;border:1px solid rgba(255,255,255,0.1);border-radius:12px;">
+                  <div style="font-weight:600;color:#e2e8f0;">${cluster.label} · ${cluster.size} 条消息</div>
+                  <div style="color:#94a3b8;">高频词：${cluster.topKeywords
+                    .map(([kw, count]) => `${kw}(${count})`)
+                    .join("、")}</div>
+                  <div style="color:#94a3b8;margin-top:0.5rem;">示例：${(cluster.sampleMessages || [])
+                    .map((msg) => `<span style="display:block;margin-top:0.25rem;">${msg}</span>`)
+                    .join("")}</div>
+                </div>`
+              )
+              .join("");
+          }
+        }
+
+        const userClusters = insights.userClusters || [];
+        const userPanel = document.getElementById("userClusterPanel");
+        if (userPanel) {
+          if (!userClusters.length) {
+            userPanel.textContent = "暂无用户聚类结果。";
+          } else {
+            userPanel.innerHTML = userClusters
+              .map((cluster) => {
+                const avg = cluster.avgMetrics;
+                return `
+                  <div style="margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px dashed rgba(255,255,255,0.1);">
+                    <div style="font-weight:600;color:#e2e8f0;">${cluster.label} · ${cluster.size} 人</div>
+                    <div style="color:#94a3b8;">
+                      平均日消息 ${avg.messages_per_day.toFixed(1)}，群聊占比 ${(avg.group_share * 100).toFixed(
+                        1
+                      )}% ，夜聊占比 ${(avg.night_share * 100).toFixed(1)}%，多媒体占比 ${(avg.media_share * 100).toFixed(1)}%
+                    </div>
+                    <div style="color:#94a3b8;margin-top:0.4rem;">代表用户：${(cluster.exampleUsers || []).join(
+                      "、"
+                    )}</div>
+                  </div>`;
+              })
+              .join("");
+          }
+        }
+
+        const sessionClusters = insights.sessionClusters || [];
+        const sessionPanel = document.getElementById("sessionClusterPanel");
+        if (sessionPanel) {
+          if (!sessionClusters.length) {
+            sessionPanel.textContent = "暂无会话聚类结果。";
+          } else {
+            sessionPanel.innerHTML = sessionClusters
+              .map((cluster) => {
+                const avg = cluster.avgMetrics;
+                return `
+                  <div style="margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px dashed rgba(255,255,255,0.1);">
+                    <div style="font-weight:600;color:#e2e8f0;">${cluster.label} · ${cluster.size} 个会话</div>
+                    <div style="color:#94a3b8;">
+                      平均消息 ${avg.messages.toFixed(0)} 条，Gini ${avg.gini.toFixed(2)}，头部占比 ${(avg.top_share * 100).toFixed(1)}%
+                    </div>
+                    <div style="color:#94a3b8;">关键词：${cluster.topKeywords
+                      .map(([kw, count]) => `${kw}(${count})`)
+                      .join("、")}</div>
+                    <div style="color:#94a3b8;margin-top:0.4rem;">代表会话：${(cluster.exampleSessions || []).join(
+                      "、"
+                    )}</div>
+                  </div>`;
+              })
+              .join("");
+          }
+        }
+      }
+
+      Promise.all([loadData(), loadNlpSummary(), loadSectionConfig(), loadCopyConfig()])
+        .then(([data, nlp, sectionConfig, copyConfig]) => {
+          applySectionConfig(sectionConfig);
+          applySlideCopy(copyConfig);
+          createTopUsersCharts(data);
+          createSessionChart(data);
+          createTemporalCharts(data);
+          createRetentionSection(data);
+          try {
+            createTopicGraphSection(data);
+          } catch (err) {
+            console.error("topic graph error", err);
+          }
+          createRiskSection(data);
+          try {
+            createContentTopicCharts(data);
+          } catch (err) {
+            console.error("content/topic charts error", err);
+          }
+          createKMeansSection(data);
+          renderNlpSection(nlp);
+          loadConversationInsights()
+            .then(renderConversationInsights)
+            .catch((err) => console.warn("conversation insights load failed", err));
+          loadAnalysisCharts().catch((err) => {
+            console.warn("analysis charts load failed", err);
+          });
+        })
+        .catch((err) => {
+          document.body.innerHTML = `<pre style="padding:2rem;color:#f87171">无法加载数据：${err.message}</pre>`;
+        });
+    </script>
+  </body>
+</html>

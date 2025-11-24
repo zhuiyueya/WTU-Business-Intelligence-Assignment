@@ -1,0 +1,120 @@
+{
+  "groups": [
+    {
+      "label": "01 · 背景与方法",
+      "description": "封面、目录、项目背景、方法论框架",
+      "slides": ["cover", "agenda", "context", "method"]
+    },
+    {
+      "label": "02 · 影响力与节点",
+      "description": "超级节点、桥接散点、参与会话数 Top10",
+      "slides": ["impact-top", "impact-bridge", "impact-multi-session"]
+    },
+    {
+      "label": "03 · 活跃趋势与时间脉搏",
+      "description": "会话热度、聊天时间分布、DAU、周 Cohort",
+      "slides": ["health-engagement", "temporal-day", "temporal-hour", "retention-dau", "retention-cohort"]
+    },
+    {
+      "label": "04 · 留存与响应效率",
+      "description": "7/30 日留存、中位响应时间",
+      "slides": ["retention-7d", "retention-30d", "retention-response"]
+    },
+    {
+      "label": "05 · 内容与话题画像",
+      "description": "关键词、内容/形式分布、主题趋势与表格、自定义图表",
+      "slides": [
+        "temporal-keywords",
+        "content-mix",
+        "content-format",
+        "content-trend",
+        "content-wordcloud",
+        "content-table",
+        "topic-table",
+        "custom-content",
+        "custom-format",
+        "text-length",
+        "manual-topic"
+      ]
+    },
+    {
+      "label": "06 · 风险与治理",
+      "description": "单点喧哗、夜间异常、敏感词、高风险清单",
+      "slides": ["health-risk", "risk-night", "risk-keyword", "risk-list"]
+    },
+    {
+      "label": "07 · 高阶模型洞察",
+      "description": "话题图谱、KMeans、NLP 报告、Conversation Insights",
+      "slides": [
+        "topic-graph",
+        "topic-narrative",
+        "cluster-content",
+        "cluster-user",
+        "cluster-session",
+        "nlp-base",
+        "nlp-intent",
+        "nlp-sentiment",
+        "nlp-thread",
+        "nlp-extra",
+        "nlp-charts",
+        "ci-topic",
+        "ci-temporal",
+        "ci-scene",
+        "ci-interaction",
+        "ci-sentiment"
+      ]
+    },
+    {
+      "label": "08 · 结论与行动建议",
+      "description": "增长与治理动作、技术沉淀",
+      "slides": ["summary"]
+    }
+  ],
+  "slides": {
+    "context": {"sectionTag": "背景设定", "title": "数据资产与业务问题"},
+    "method": {"sectionTag": "商务智能框架", "title": "指标体系与方法论"},
+    "impact-top": {"sectionTag": "社群影响力", "title": "超级节点 Top 10"},
+    "impact-bridge": {"sectionTag": "社群影响力", "title": "桥接指数散点"},
+    "impact-multi-session": {"sectionTag": "社群影响力", "title": "用户参与会话数量"},
+    "health-engagement": {"sectionTag": "群组健康", "title": "高活跃会话体检"},
+    "temporal-day": {"sectionTag": "时间脉搏", "title": "聊天时间分布"},
+    "temporal-hour": {"sectionTag": "时间脉搏", "title": "时间分布洞察"},
+    "retention-dau": {"sectionTag": "留存与响应", "title": "每日活跃用户"},
+    "retention-cohort": {"sectionTag": "留存与响应", "title": "周 Cohort 留存"},
+    "retention-7d": {"sectionTag": "重点指标", "title": "7 日留存率"},
+    "retention-30d": {"sectionTag": "重点指标", "title": "30 日留存率"},
+    "retention-response": {"sectionTag": "重点指标", "title": "中位响应时间"},
+    "temporal-keywords": {"sectionTag": "热点捕捉", "title": "关键词雷达"},
+    "content-mix": {"sectionTag": "内容画像", "title": "内容类型占比"},
+    "content-format": {"sectionTag": "内容画像", "title": "消息形式占比"},
+    "content-trend": {"sectionTag": "话题脉搏", "title": "主题趋势"},
+    "content-wordcloud": {"sectionTag": "话题脉搏", "title": "词云速览"},
+    "content-table": {"sectionTag": "内容/话题表", "title": "内容数量表"},
+    "topic-table": {"sectionTag": "内容/话题表", "title": "话题数量表"},
+    "custom-content": {"sectionTag": "自定义图表", "title": "内容类型扇形图"},
+    "custom-format": {"sectionTag": "自定义图表", "title": "聊天形式分布"},
+    "text-length": {"sectionTag": "自定义图表", "title": "文本消息长度区间"},
+    "manual-topic": {"sectionTag": "自定义图表", "title": "学生话题柱状图"},
+    "health-risk": {"sectionTag": "风险与治理", "title": "高风险群聊提醒"},
+    "risk-night": {"sectionTag": "风险与治理", "title": "夜间活跃异常"},
+    "risk-keyword": {"sectionTag": "风险与治理", "title": "敏感关键词监控"},
+    "risk-list": {"sectionTag": "风险与治理", "title": "高风险会话清单"},
+    "topic-graph": {"sectionTag": "高阶模型洞察", "title": "高频话题关系图谱"},
+    "topic-narrative": {"sectionTag": "高阶模型洞察", "title": "节点洞察 & 叙事"},
+    "cluster-content": {"sectionTag": "高阶模型洞察", "title": "内容主题簇"},
+    "cluster-user": {"sectionTag": "高阶模型洞察", "title": "用户画像簇"},
+    "cluster-session": {"sectionTag": "高阶模型洞察", "title": "会话健康簇"},
+    "nlp-base": {"sectionTag": "高阶模型洞察", "title": "NLP 语料范围"},
+    "nlp-intent": {"sectionTag": "高阶模型洞察", "title": "分类 & 意图分布"},
+    "nlp-sentiment": {"sectionTag": "高阶模型洞察", "title": "情绪 & 毒性"},
+    "nlp-thread": {"sectionTag": "高阶模型洞察", "title": "线程 & 预测"},
+    "nlp-extra": {"sectionTag": "高阶模型洞察", "title": "补充指数"},
+    "nlp-charts": {"sectionTag": "高阶模型洞察", "title": "自动嵌入补充图表"},
+    "ci-topic": {"sectionTag": "Conversation Insights", "title": "核心话题覆盖率"},
+    "ci-temporal": {"sectionTag": "Conversation Insights", "title": "时间峰值卡片"},
+    "ci-scene": {"sectionTag": "Conversation Insights", "title": "社交场景关联"},
+    "ci-interaction": {"sectionTag": "Conversation Insights", "title": "互动深度"},
+    "ci-sentiment": {"sectionTag": "Conversation Insights", "title": "情感价值导向"},
+    "summary": {"sectionTag": "行动建议", "title": "关键结论 & 下一步"}
+  }
+}

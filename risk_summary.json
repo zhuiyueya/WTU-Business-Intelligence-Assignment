@@ -1,0 +1,158 @@
+{
+  "lateNightDays": [
+    {
+      "day": "2025-09-28",
+      "late_messages": 3888,
+      "share": 0.291
+    },
+    {
+      "day": "2025-09-29",
+      "late_messages": 3300,
+      "share": 0.292
+    },
+    {
+      "day": "2025-10-10",
+      "late_messages": 3071,
+      "share": 0.564
+    },
+    {
+      "day": "2025-10-17",
+      "late_messages": 2502,
+      "share": 0.381
+    },
+    {
+      "day": "2025-09-30",
+      "late_messages": 2338,
+      "share": 0.347
+    },
+    {
+      "day": "2025-10-22",
+      "late_messages": 1817,
+      "share": 0.291
+    },
+    {
+      "day": "2025-10-21",
+      "late_messages": 1772,
+      "share": 0.246
+    },
+    {
+      "day": "2025-10-23",
+      "late_messages": 1661,
+      "share": 0.256
+    },
+    {
+      "day": "2025-10-24",
+      "late_messages": 1592,
+      "share": 0.285
+    },
+    {
+      "day": "2025-10-13",
+      "late_messages": 1589,
+      "share": 0.287
+    }
+  ],
+  "keywordAlerts": [
+    {
+      "keyword": "兼职",
+      "count": 213
+    },
+    {
+      "keyword": "广告",
+      "count": 103
+    },
+    {
+      "keyword": "举报",
+      "count": 95
+    },
+    {
+      "keyword": "诈骗",
+      "count": 52
+    },
+    {
+      "keyword": "招聘",
+      "count": 45
+    },
+    {
+      "keyword": "急招",
+      "count": 32
+    },
+    {
+      "keyword": "外挂",
+      "count": 17
+    },
+    {
+      "keyword": "投诉",
+      "count": 17
+    },
+    {
+      "keyword": "违规",
+      "count": 16
+    },
+    {
+      "keyword": "出售",
+      "count": 16
+    }
+  ],
+  "sessionRisks": [
+    {
+      "id": "S110",
+      "name": "会话110",
+      "flagged_messages": 70,
+      "late_night_messages": 12554
+    },
+    {
+      "id": "S1959",
+      "name": "会话1959",
+      "flagged_messages": 67,
+      "late_night_messages": 268
+    },
+    {
+      "id": "S107",
+      "name": "会话107",
+      "flagged_messages": 65,
+      "late_night_messages": 13404
+    },
+    {
+      "id": "S2",
+      "name": "会话2",
+      "flagged_messages": 56,
+      "late_night_messages": 219
+    },
+    {
+      "id": "S44",
+      "name": "会话44",
+      "flagged_messages": 53,
+      "late_night_messages": 251
+    },
+    {
+      "id": "S100",
+      "name": "会话100",
+      "flagged_messages": 45,
+      "late_night_messages": 9517
+    },
+    {
+      "id": "S50",
+      "name": "会话50",
+      "flagged_messages": 29,
+      "late_night_messages": 84
+    },
+    {
+      "id": "S1972",
+      "name": "会话1972",
+      "flagged_messages": 26,
+      "late_night_messages": 160
+    },
+    {
+      "id": "S7",
+      "name": "会话7",
+      "flagged_messages": 21,
+      "late_night_messages": 180
+    },
+    {
+      "id": "S1850",
+      "name": "会话1850",
+      "flagged_messages": 17,
+      "late_night_messages": 740
+    }
+  ]
+}

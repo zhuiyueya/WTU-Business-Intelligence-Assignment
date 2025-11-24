@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>聊天核心话题与节奏洞察</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft Yahei", sans-serif;
+      color: #1c1c1c;
+      background: #f5f7fb;
+    }
+    body {
+      margin: 0;
+      padding: 32px;
+      line-height: 1.65;
+    }
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      color: #667085;
+      margin-bottom: 2rem;
+    }
+    section {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 1rem;
+    }
+    .card {
+      padding: 16px;
+      background: #f9fafb;
+      border-radius: 12px;
+      border: 1px solid #e4e7ec;
+    }
+    .card h3 {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #475467;
+    }
+    .card .value {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    th {
+      background: #f8fafc;
+      color: #475467;
+      font-size: 0.9rem;
+    }
+    canvas {
+      max-width: 100%;
+    }
+    .chart-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .note {
+      font-size: 0.9rem;
+      color: #475467;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>聊天核心话题与节奏洞察</h1>
+  <p class="subtitle">数据来源：message.csv，样本量 212064 条消息</p>
+
+  <section>
+    <h2>话题高频度指数（核心话题）</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>核心话题覆盖率</h3>
+        <div class="value">4.19%</div>
+        <p class="note">Top10 关键词占全部有效词频的比例</p>
+      </div>
+      <div class="card">
+        <h3>有效分词总量</h3>
+        <div class="value">355082</div>
+        <p class="note">去除停用词与噪声后的计数</p>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>关键词</th>
+          <th>出现次数</th>
+          <th>占比</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>欢迎</td><td>2437</td><td>0.69%</td></tr><tr><td>不是</td><td>2237</td><td>0.63%</td></tr><tr><td>现在</td><td>1601</td><td>0.45%</td></tr><tr><td>知道</td><td>1580</td><td>0.44%</td></tr><tr><td>同学</td><td>1410</td><td>0.4%</td></tr><tr><td>感觉</td><td>1259</td><td>0.35%</td></tr><tr><td>今天</td><td>1253</td><td>0.35%</td></tr><tr><td>学校</td><td>1052</td><td>0.3%</td></tr><tr><td>直接</td><td>1028</td><td>0.29%</td></tr><tr><td>时候</td><td>1010</td><td>0.28%</td></tr>
+      </tbody>
+    </table>
+    <p class="note">核心词 欢迎、不是、现在 占据前列，表现为任务广播与咨询型对话为主。</p>
+  </section>
+
+  <section>
+    <h2>聊天时间分布（高峰期 / 周期性）</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>最活跃小时</h3>
+        <div class="value">12:00</div>
+        <p class="note">消息量 16257 条</p>
+      </div>
+      <div class="card">
+        <h3>峰值日期</h3>
+        <div class="value">2025-09-28</div>
+        <p class="note">消息量 13359 条</p>
+      </div>
+      <div class="card">
+        <h3>周内节奏</h3>
+        <div class="value">周一</div>
+        <p class="note">周末/工作日对比</p>
+      </div>
+    </div>
+    <div class="chart-row">
+      <canvas id="hourly-chart"></canvas>
+      <canvas id="weekday-chart"></canvas>
+      <canvas id="monthly-chart"></canvas>
+    </div>
+    <p class="note">12:00 为全天高峰；2025-09-28 是整体峰值日，周内以 周一 为重心，周末活跃度约为工作日的 38.3%。</p>
+  </section>
+
+  <section>
+    <h2>社交场景关联度</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>主要场景</h3>
+        <div class="value">group</div>
+        <p class="note">占比 97.68%</p>
+      </div>
+      <div class="card">
+        <h3>多场景覆盖</h3>
+        <div class="value">3 种</div>
+        <p class="note">session_type 字段识别的聊天类型</p>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>场景类型</th>
+          <th>消息量</th>
+          <th>占比</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>group</td><td>207134</td><td>97.68%</td></tr><tr><td>unknown</td><td>4519</td><td>2.13%</td></tr><tr><td>private</td><td>411</td><td>0.19%</td></tr>
+      </tbody>
+    </table>
+    <p class="note">group 占比 97.68%，显著高于 unknown (2.13%)，其余场景仅提供补充触达。</p>
+  </section>
+
+  <section>
+    <h2>话题互动深度指数</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>深度指数</h3>
+        <div class="value">54.7</div>
+        <p class="note">综合均值 / 中位数 / 丰富会话占比</p>
+      </div>
+      <div class="card">
+        <h3>平均每会话消息</h3>
+        <div class="value">103.45</div>
+        <p class="note">全部会话粒度</p>
+      </div>
+      <div class="card">
+        <h3>中位值</h3>
+        <div class="value">1.0</div>
+        <p class="note">对极端活跃会话去敏感</p>
+      </div>
+      <div class="card">
+        <h3>≥5条会话占比</h3>
+        <div class="value">10.05%</div>
+        <p class="note">多轮互动覆盖情况</p>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>高互动会话</th>
+          <th>消息量</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>S107</td><td>59772</td></tr><tr><td>S110</td><td>43491</td></tr><tr><td>S100</td><td>31063</td></tr><tr><td>S174</td><td>13411</td></tr><tr><td>S115</td><td>10814</td></tr>
+      </tbody>
+    </table>
+    <p class="note">平均每会话 103.45 条、≥5条会话占比 10.05%，深度指数 54.7。</p>
+  </section>
+
+  <section>
+    <h2>情感价值导向指数</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>情感指数</h3>
+        <div class="value">50.36</div>
+        <p class="note">-100（负向）~ 100（正向）</p>
+      </div>
+      <div class="card">
+        <h3>平均得分</h3>
+        <div class="value">0.007</div>
+        <p class="note">基于极性词典的归一化评分</p>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>情感极性</th>
+          <th>消息量</th>
+          <th>占比</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>positive</td><td>3480</td><td>1.64%</td></tr><tr><td>neutral</td><td>206735</td><td>97.49%</td></tr><tr><td>negative</td><td>1849</td><td>0.87%</td></tr>
+      </tbody>
+    </table>
+    <p class="note">情绪以中性陈述为主（占比 97.49%），正向 1.64%，负向 0.87%。</p>
+  </section>
+
+  <script>
+    const hourlyLabels = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
+    const hourlyData = [6797, 9253, 10719, 13181, 10978, 8198, 10711, 12063, 10971, 13250, 15120, 15825, 16257, 15569, 14586, 13019, 8443, 2439, 567, 223, 78, 88, 590, 3139];
+    const weekdayLabels = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+    const weekdayData = [34599, 31946, 27670, 28859, 30253, 28583, 30154];
+    const monthlyLabels = ["2025-09", "2025-10", "2025-11"];
+    const monthlyData = [40848, 138862, 32354];
+
+    new Chart(document.getElementById("hourly-chart"), {
+      type: "line",
+      data: {
+        labels: hourlyLabels,
+        datasets: [{
+          label: "小时消息量",
+          data: hourlyData,
+          borderColor: "#2563eb",
+          backgroundColor: "rgba(37, 99, 235, 0.1)",
+          tension: 0.3,
+          fill: true,
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    new Chart(document.getElementById("weekday-chart"), {
+      type: "bar",
+      data: {
+        labels: weekdayLabels,
+        datasets: [{
+          label: "周内分布",
+          data: weekdayData,
+          backgroundColor: "#22c55e",
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    new Chart(document.getElementById("monthly-chart"), {
+      type: "bar",
+      data: {
+        labels: monthlyLabels,
+        datasets: [{
+          label: "月度消息量",
+          data: monthlyData,
+          backgroundColor: "#f97316",
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
