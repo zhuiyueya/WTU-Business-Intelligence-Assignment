@@ -1,6 +1,3 @@
 name = "business-intelligence-assignment"
 compatibility_date = "2025-11-24"
-main = "./dashboard.html"
-
-[assets]
-directory = "."
+main = "index.js"
