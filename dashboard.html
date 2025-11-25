@@ -1259,27 +1259,6 @@
       </div>
     </section>
 
-    <section class="slide" id="nlp-charts">
-      <div class="section-tag" data-section-tag="nlp-charts">高阶模型洞察</div>
-      <h2 class="slide-title" data-slide-title="nlp-charts">自动嵌入补充图表</h2>
-      <div class="split-container">
-        <div class="panel visual-block">
-          <div id="nlpCharts" class="grid"></div>
-        </div>
-        <div class="panel copy-block copy-panel" data-copy-id="nlp-charts">
-          <p class="slide-note">
-            从 analysis_report.html 动态提取典型图表，保证 PPT 网页含有原报告中的视觉证据。
-          </p>
-          <p class="slide-note">
-            <strong>技术说明：</strong>前端通过 DOMParser 抽取 Base64 图像，保留最多 4 张典型图，实现“报告→幻灯片”自动化。
-          </p>
-          <p class="slide-note">
-            <strong>分析要点：</strong>补充图覆盖未在主仪表展示的视角，确保汇报材料完整。
-          </p>
-        </div>
-      </div>
-    </section>
-
     <section class="slide" id="ci-topic">
       <div class="section-tag" data-section-tag="ci-topic">Conversation Insights</div>
       <h2 class="slide-title" data-slide-title="ci-topic">核心话题覆盖率</h2>
@@ -1511,30 +1490,6 @@
         const res = await fetch("dashboard_data.json");
         if (!res.ok) throw new Error("dashboard_data.json 未找到");
         return res.json();
-      }
-
-      async function loadAnalysisCharts() {
-        const res = await fetch("analysis_report.html");
-        if (!res.ok) throw new Error("analysis_report.html 未找到");
-        const html = await res.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, "text/html");
-        const imgs = Array.from(doc.querySelectorAll("img[src^='data:image/png;base64']"));
-        const target = document.getElementById("nlpCharts");
-        if (!target) return;
-        if (!imgs.length) {
-          target.innerHTML = "<div class='insight'>未找到可嵌入图表。</div>";
-          return;
-        }
-        const limited = imgs.slice(0, 4); // 取前四个典型图表（活跃用户/小时/星期/每日）
-        target.innerHTML = limited
-          .map(
-            (img, idx) =>
-              `<div class="panel" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
-                <img alt="analysis chart ${idx + 1}" src="${img.src}" style="width:100%;border:none;"/>
-              </div>`
-          )
-          .join("");
       }
 
       async function loadConversationInsights() {
@@ -2672,9 +2627,6 @@
           loadConversationInsights()
             .then(renderConversationInsights)
             .catch((err) => console.warn("conversation insights load failed", err));
-          loadAnalysisCharts().catch((err) => {
-            console.warn("analysis charts load failed", err);
-          });
         })
         .catch((err) => {
           document.body.innerHTML = `<pre style="padding:2rem;color:#f87171">无法加载数据：${err.message}</pre>`;
