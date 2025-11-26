@@ -744,25 +744,6 @@
       </div>
     </section>
 
-    <section class="slide" id="content-format">
-      <div class="section-tag" data-section-tag="content-format">内容画像</div>
-      <h2 class="slide-title" data-slide-title="content-format">消息形式占比</h2>
-      <div class="split-container">
-        <div class="panel visual-block">
-          <canvas id="formatPie" height="260"></canvas>
-        </div>
-        <div class="panel copy-block copy-panel" data-copy-id="content-format">
-          <p class="slide-note">多媒体/语音比例能反推素材准备与服务器成本。</p>
-          <p class="slide-note">
-            <strong>技术说明：</strong>格式识别来自消息 metadata（image/video/file），脚本统计后写入 JSON；Chart.js 饼图 + legend 可切换。
-          </p>
-          <p class="slide-note">
-            <strong>分析要点：</strong>若图片/视频合计 >40%，应预留 CDN 流量；若文本占比过高，可插入图文素材提升互动。
-          </p>
-        </div>
-      </div>
-    </section>
-
     <section class="slide" id="content-trend">
       <div class="section-tag" data-section-tag="content-trend">话题脉搏</div>
       <h2 class="slide-title" data-slide-title="content-trend">主题趋势</h2>
@@ -819,43 +800,6 @@
       </div>
     </section>
 
-    <section class="slide" id="topic-table">
-      <div class="section-tag" data-section-tag="topic-table">内容/话题表</div>
-      <h2 class="slide-title" data-slide-title="topic-table">话题数量表</h2>
-      <div class="split-container">
-        <div class="panel visual-block">
-          <div id="topicTable" class="slide-note" style="width:100%;"></div>
-        </div>
-        <div class="panel copy-block copy-panel" data-copy-id="topic-table">
-          <p class="slide-note">
-            <strong>技术说明：</strong>话题数量表同样由脚本渲染，数据来源 <code>content_topic_analysis.json</code>；通过排序帮助定位 Top 话题。
-          </p>
-          <p class="slide-note">
-            <strong>分析要点：</strong>Top 话题与 KPI 结合能说明各内容线的 ROI，可在汇报中引用具体数值。
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide" id="custom-content">
-      <div class="section-tag" data-section-tag="custom-content">自定义图表</div>
-      <h2 class="slide-title" data-slide-title="custom-content">内容类型扇形图</h2>
-      <div class="split-container">
-        <div class="panel visual-block">
-          <canvas id="customContentPie" height="240" style="max-width: 100%;"></canvas>
-        </div>
-        <div class="panel copy-block copy-panel" data-copy-id="custom-content">
-          <p class="slide-note">展示交易/生活/吐槽等内容的绝对量，用于 KPI 对齐。</p>
-          <p class="slide-note">
-            <strong>技术说明：</strong>此图来自人工标注的 600 条样本，通过比例外推整个语料，Chart.js 配色与主图呼应。
-          </p>
-          <p class="slide-note">
-            <strong>分析要点：</strong>“交易类”高说明闲置交易需求旺；“吐槽类”升高则要关注舆情。
-          </p>
-        </div>
-      </div>
-    </section>
-
     <section class="slide" id="custom-format">
       <div class="section-tag" data-section-tag="custom-format">自定义图表</div>
       <h2 class="slide-title" data-slide-title="custom-format">聊天形式分布</h2>
@@ -889,25 +833,6 @@
           </p>
           <p class="slide-note">
             <strong>分析要点：</strong>0-10 字段占比 70%+，说明学生偏短句互动；长文虽少但可用于深度分享或公告。
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide" id="manual-topic">
-      <div class="section-tag" data-section-tag="manual-topic">自定义图表</div>
-      <h2 class="slide-title" data-slide-title="manual-topic">学生话题柱状图</h2>
-      <div class="split-container">
-        <div class="panel visual-block">
-          <canvas id="manualTopicBar" height="260" style="max-width: 100%;"></canvas>
-        </div>
-        <div class="panel copy-block copy-panel" data-copy-id="manual-topic">
-          <p class="slide-note">讲解不同主题的热度差异，为活动策划提供优先级。</p>
-          <p class="slide-note">
-            <strong>技术说明：</strong>利用人工定义的 topicTypeCounts（来自 keywords_group.csv），通过 Chart.js 柱图展示。
-          </p>
-          <p class="slide-note">
-            <strong>分析要点：</strong>对柱高的主题设置专属活动或福利；低迷主题可减少投放，把资源集中到高 ROI 话题。
           </p>
         </div>
       </div>

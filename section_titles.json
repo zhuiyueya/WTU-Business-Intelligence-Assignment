@@ -26,20 +26,15 @@
     },
     {
       "label": "05 · 内容与话题画像",
-      "description": "关键词、内容/形式分布、主题趋势与表格、自定义图表",
+      "description": "关键词、内容/主题趋势与图谱、自定义图表",
       "anchor": "chapter-05",
       "slides": [
         "temporal-keywords",
         "content-mix",
-        "content-format",
         "content-trend",
         "content-wordcloud",
-        "content-table",
-        "topic-table",
-        "custom-content",
         "custom-format",
-        "text-length",
-        "manual-topic"
+        "text-length"
       ]
     },
     {
@@ -93,15 +88,8 @@
     "retention-response": {"sectionTag": "重点指标", "title": "中位响应时间"},
     "temporal-keywords": {"sectionTag": "热点捕捉", "title": "关键词雷达"},
     "content-mix": {"sectionTag": "内容画像", "title": "内容类型占比"},
-    "content-format": {"sectionTag": "内容画像", "title": "消息形式占比"},
     "content-trend": {"sectionTag": "话题脉搏", "title": "主题趋势"},
     "content-wordcloud": {"sectionTag": "话题脉搏", "title": "词云速览"},
-    "content-table": {"sectionTag": "内容/话题表", "title": "内容数量表"},
-    "topic-table": {"sectionTag": "内容/话题表", "title": "话题数量表"},
-    "custom-content": {"sectionTag": "自定义图表", "title": "内容类型扇形图"},
-    "custom-format": {"sectionTag": "自定义图表", "title": "聊天形式分布"},
-    "text-length": {"sectionTag": "自定义图表", "title": "文本消息长度区间"},
-    "manual-topic": {"sectionTag": "自定义图表", "title": "学生话题柱状图"},
     "health-risk": {"sectionTag": "风险与治理", "title": "高风险群聊提醒"},
     "risk-night": {"sectionTag": "风险与治理", "title": "夜间活跃异常"},
     "risk-keyword": {"sectionTag": "风险与治理", "title": "敏感关键词监控"},
